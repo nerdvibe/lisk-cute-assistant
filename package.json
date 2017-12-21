@@ -1,0 +1,24 @@
+{
+  "name": "lisk-cute-assistant",
+  "version": "1.0.0",
+  "description": "A remote cute lisk node helper",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "lisk",
+    "node",
+    "assistant"
+  ],
+  "author": "carbonara",
+  "license": "ISC",
+  "dependencies": {
+    "awesome_starter": "^1.0.6",
+    "axios": "^0.17.1",
+    "node-cron": "^1.2.1",
+    "node-telegram-bot-api": "^0.30.0",
+    "speakeasy": "^2.0.0",
+    "tail": "^1.2.3"
+  }
+}
