@@ -9,3 +9,5 @@
 
 - TODO
 
+### Todos
+- Do active log monitoring. Needs to be performance checked
