@@ -12,4 +12,4 @@ We are always looking for people to help to bring Liskhunt to the next level.
 - Create a pull request to this repository
 - Somebody then will review it, give a feedback and merge it.
 
-If you want to get in touch with the main contributors of the repo you can get in touch with @xunga or @tomploem here on github or contact carbonara on the lisk.chat.
+If you want to get in touch with the main contributors of the repo you can get in touch with @xunga here on github or contact carbonara on the lisk.chat.
