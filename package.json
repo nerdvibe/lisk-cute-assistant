@@ -4,7 +4,8 @@
   "description": "A remote cute lisk node helper",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "generate-password": "node generate_password.js"
   },
   "keywords": [
     "lisk",
