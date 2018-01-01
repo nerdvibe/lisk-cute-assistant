@@ -27,12 +27,12 @@ const respondServerStatus = async () => {
         settings.chatId,
         `Omg! I didn't manage to correctly check the server status: \n${stderr}`
       );
-      if(stdout)
+      if (stdout)
         bot.sendMessage(
           settings.chatId,
           `This is what I got anyway (stdout): \n${stdout}`
         );
-      return
+      return;
     }
     bot.sendMessage(settings.chatId, stdout);
   });
@@ -55,12 +55,12 @@ const checkServerStatusCron = async () => {
         settings.chatId,
         `Omg! I didn't manage to correctly check the cpu status: \n${stderr}`
       );
-      if(stdout)
+      if (stdout)
         bot.sendMessage(
           settings.chatId,
           `This is what I got anyway (stdout): \n${stdout}`
         );
-      return
+      return;
     }
     const stdoutValue = parseInt(stdout);
     if (stdoutValue > settings.cpuThreshold)
@@ -76,12 +76,12 @@ const checkServerStatusCron = async () => {
         settings.chatId,
         `Omg! I didn't manage to correctly check the space usage: \n${stderr}`
       );
-      if(stdout)
+      if (stdout)
         bot.sendMessage(
           settings.chatId,
           `This is what I got anyway (stdout): \n${stdout}`
         );
-      return
+      return;
     }
     const stdoutValue = parseInt(stdout);
     if (stdoutValue > settings.spaceUsageThreshold)
@@ -97,12 +97,12 @@ const checkServerStatusCron = async () => {
         settings.chatId,
         `Omg! I didn't manage to correctly check the memory usage: \n${stderr}`
       );
-      if(stdout)
+      if (stdout)
         bot.sendMessage(
           settings.chatId,
           `This is what I got anyway (stdout): \n${stdout}`
         );
-      return
+      return;
     }
     const stdoutValue = parseInt(stdout);
     if (stdoutValue > settings.memoryThreshold)
