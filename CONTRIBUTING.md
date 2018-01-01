@@ -1,4 +1,4 @@
-# How to contribute to Liskhunt
+# How to contribute to lisk-cute-assistant
 
 If you are interested in contributing to Liskhunt, well you are a wonderful person.
 
