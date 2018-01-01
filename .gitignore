@@ -5,3 +5,5 @@
 .DS_Store
 
 \.idea/
+
+src/config\.js
