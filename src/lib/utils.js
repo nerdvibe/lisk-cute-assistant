@@ -18,7 +18,6 @@ const setIntent = intent => {
 };
 
 const sendChunkedMessage = async message => {
-
   const throttler = chunk => {
     return new Promise(resolve => {
       setTimeout(() => resolve(bot.sendMessage(settings.chatId, chunk)), 500);
@@ -31,7 +30,7 @@ const sendChunkedMessage = async message => {
       await throttler(chunk);
     }
   } else if (!message || !message.length) {
-    return
+    return;
   } else {
     return await bot.sendMessage(settings.chatId, message);
   }

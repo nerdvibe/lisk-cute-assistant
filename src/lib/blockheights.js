@@ -78,46 +78,67 @@ const compareBlockHeightsCron = async () => {
 
 // Used for replying to user message
 const respondBlockHeights = async () => {
-  const localBlockheight = await getBlockHeight(settings.localNodeURL).catch(() => awesome.errors.generalCatchCallback('','get local block height'));
-  let otherBlockMessage = '';
+  const localBlockheight = await getBlockHeight(
+    settings.localNodeURL
+  ).catch(() =>
+    awesome.errors.generalCatchCallback("", "get local block height")
+  );
+  let otherBlockMessage = "";
   let sameBlockHeights;
   let matchingBlockHeights = 0;
 
-  if(localBlockheight === '0')
-    return bot.sendMessage(settings.chatId, 'Error getting the local block height');
+  if (localBlockheight === "0")
+    return bot.sendMessage(
+      settings.chatId,
+      "Error getting the local block height"
+    );
 
-  console.log('Local block height is: ', localBlockheight);
-  bot.sendMessage(settings.chatId, `<b>Local block height</b> is: ${localBlockheight}`, {parse_mode: 'HTML'});
+  console.log("Local block height is: ", localBlockheight);
+  bot.sendMessage(
+    settings.chatId,
+    `<b>Local block height</b> is: ${localBlockheight}`,
+    { parse_mode: "HTML" }
+  );
 
   await bot.sendMessage(settings.chatId, `Parsing remote nodes ✨🔎`);
 
   for (let node of settings.remoteNodes) {
-    let remoteNode = Object.assign( {}, node);
-    remoteNode.blockHeight = await getBlockHeight(node.url).catch(() => awesome.errors.generalCatchCallback('',`get remote height ${node.name}`));
+    let remoteNode = Object.assign({}, node);
+    remoteNode.blockHeight = await getBlockHeight(node.url).catch(() =>
+      awesome.errors.generalCatchCallback("", `get remote height ${node.name}`)
+    );
 
     //compiling message
     otherBlockMessage += `\n\n<b>${remoteNode.name}</b> : ${remoteNode.blockHeight}`;
 
     //checking if my block height is in sync with this node
     let zero = localBlockheight - remoteNode.blockHeight;
-    if(zero >= -settings.diffBlockHeight && zero <= settings.diffBlockHeight)
+    if (zero >= -settings.diffBlockHeight && zero <= settings.diffBlockHeight)
       matchingBlockHeights++;
-
   }
 
   //publishing summary other block heights
-  await bot.sendMessage(settings.chatId, otherBlockMessage, {parse_mode: 'HTML'});
+  await bot.sendMessage(settings.chatId, otherBlockMessage, {
+    parse_mode: "HTML"
+  });
 
   // checking if the local block height is matching with the majority of the others
   let zero = settings.remoteNodes.length - matchingBlockHeights;
   sameBlockHeights = zero >= settings.minBlockHeightNodeMatch;
-  if(sameBlockHeights) {
-    console.success('Your node seems to have the correct height');
-    bot.sendMessage(settings.chatId, '👌 Your node seems to have the correct height');
-  }
-  else {
-    console.fail('The block heights are not matching with the rest of the network');
-    bot.sendMessage(settings.chatId, '😡 The block heights are not matching with the rest of the network');
+  if (sameBlockHeights) {
+    console.success("Your node seems to have the correct height");
+    bot.sendMessage(
+      settings.chatId,
+      "👌 Your node seems to have the correct height"
+    );
+  } else {
+    console.fail(
+      "The block heights are not matching with the rest of the network"
+    );
+    bot.sendMessage(
+      settings.chatId,
+      "😡 The block heights are not matching with the rest of the network"
+    );
   }
 };
 
