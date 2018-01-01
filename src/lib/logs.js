@@ -12,8 +12,8 @@ let logsBatch = []; //used to batching logs when tailing
 try {
   tail = new Tail(settings.liskPWDFolder + "/foo.txt"); // logs/lisk.log
   tail.on("line", function(data) {
-    if(followLogs) {
-      logsBatch.push(data)
+    if (followLogs) {
+      logsBatch.push(data);
     }
   });
 
@@ -39,9 +39,9 @@ const toggleTailing = () => {
       tail.watch();
       followLogs = !followLogs;
       batchSender = setInterval(() => {
-        sendChunkedMessage(logsBatch.join('\n'));
+        sendChunkedMessage(logsBatch.join("\n"));
         logsBatch = [];
-      }, 1000 );
+      }, 1000);
     } catch (e) {
       bot.sendMessage(
         settings.chatId,
