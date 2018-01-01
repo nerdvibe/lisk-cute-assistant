@@ -46,7 +46,7 @@ console.log(`
 
  `);
 
-if (settings.rebootWelcome) {
+if (settings.chatId && settings.rebootWelcome) {
   (async () => {
     await bot.sendMessage(
       settings.chatId,
@@ -59,11 +59,18 @@ if (settings.rebootWelcome) {
 //Menu
 bot.onText(/(\/s|\/start|hey|hi|help|hello|yo|menu|menú|cancel|back)/i, msg => {
   promptIntent = cleanIntent();
-  bot.sendMessage(
-    settings.chatId,
-    `👋 Hey ${msg.from.first_name}! How can I help you with?`,
-    consts.menu
-  );
+  if(settings.chatId)
+    bot.sendMessage(
+      settings.chatId,
+      `👋 Hey ${msg.from.first_name}! How can I help you with?`,
+      consts.menu
+    );
+  else
+    bot.sendMessage(
+        msg.from.id,
+        `👋 Hey ${msg.from.first_name}! Your id is: ${msg.from.id}`,
+        consts.menu
+    );
   console.log(
     "Client connected:",
     msg.from.id,
