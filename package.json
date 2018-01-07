@@ -1,9 +1,11 @@
 {
-  "name": "lisk-cute-assistant",
   "version": "1.0.0",
   "description": "A remote cute lisk node helper",
   "main": "index.js",
   "scripts": {
+    "start": "node_modules/pm2/bin/pm2 start src/index.js",
+    "stop": "node_modules/pm2/bin/pm2 stop src/index.js",
+    "dev": "node src/index.js",
     "test": "echo \"Error: no test specified\" && exit 1",
     "generate-password": "node generate_password.js"
   },
@@ -19,6 +21,7 @@
     "axios": "^0.17.1",
     "node-cron": "^1.2.1",
     "node-telegram-bot-api": "^0.30.0",
+    "pm2": "^2.9.1",
     "speakeasy": "^2.0.0",
     "tail": "^1.2.3"
   }
