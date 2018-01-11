@@ -131,7 +131,7 @@ bot.onText(/get logs/i, () => {
         ["<< Back", "📄 Recent logs", followLogsMsg],
         ["⚠️ Forks cause 1", "⚠️ Forks cause 2", "⚠️ Forks cause 3"],
         ["⚠️ Forks cause 4", "⚠️ Forks cause 5", "Logs All Forks"],
-        ["Logs SIGKILL", "Logs SIGABERT", "Logs Consensus"]
+        ["Logs SIGKILL", "Logs SIGABRT", "Logs Consensus"]
       ]
     }
   });
@@ -139,7 +139,7 @@ bot.onText(/get logs/i, () => {
 
 // Rebuild flow start
 bot.onText(/🔑 Rebuild from snapshot Gr33ndragon/, async () => {
-  promptIntent = setIntent(consts.snapshot_servers.GREENDRAGON_MAIN);
+  promptIntent = setIntent(consts.intents.ASK_PASSWORD_REBUILD_GREENDRAGON_MAIN);
   return bot.sendMessage(
     settings.chatId,
     `🔐 Please provide the password to rebuild..`,
