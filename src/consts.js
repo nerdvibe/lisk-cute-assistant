@@ -1,15 +1,13 @@
-exports.intents = [
+exports.intents =
   {
     ASK_PASSWORD_REBUILD_GREENDRAGON_MAIN:
       "ASK_PASSWORD_REBUILD_GREENDRAGON_MAIN"
-  }
-];
+  };
 
-exports.snapshot_servers = [
+exports.snapshot_servers =
   {
-    GREENDRAGON_MAIN: "https://snapshot.lisknode.io/"
-  }
-];
+    GREENDRAGON_MAIN: "https://snapshot.lisknode.io"
+  };
 
 exports.menu = {
   reply_markup: {
@@ -31,5 +29,5 @@ exports.logsGREP = {
   "5": "5",
   CONSENSUS: "CONSENSUS",
   SIGKILL: "SIGKILL",
-  SIGABERT: "SIGABERT"
+  SIGABRT: "SIGABRT"
 };
