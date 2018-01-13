@@ -52,24 +52,25 @@ const compareBlockHeightsCron = async () => {
   }
 
   // checking if the local block height is matching with the majority of the others
-  let zero = settings.remoteNodes.length - matchingBlockHeights;
+  let zero = matchingBlockHeights - settings.remoteNodes.length;
   sameBlockHeights = zero >= settings.minBlockHeightNodeMatch;
+  
   if (!sameBlockHeights) {
     console.fail(
       "Detected issue: The block heights are not matching with the rest of the network"
     );
-    bot.sendMessage(
+    await bot.sendMessage(
       settings.chatId,
       `⚠️ Detected issue while executing the routine check`,
       { parse_mode: "HTML" }
     );
-    bot.sendMessage(
+    await bot.sendMessage(
       settings.chatId,
       `<b>Local block height</b> is: ${localBlockheight}`,
       { parse_mode: "HTML" }
     );
-    bot.sendMessage(settings.chatId, otherBlockMessage, { parse_mode: "HTML" });
-    bot.sendMessage(
+    await bot.sendMessage(settings.chatId, otherBlockMessage, { parse_mode: "HTML" });
+    await bot.sendMessage(
       settings.chatId,
       "⚠️ Detected issue: The block heights are not matching with the rest of the network"
     );
@@ -123,8 +124,10 @@ const respondBlockHeights = async () => {
   });
 
   // checking if the local block height is matching with the majority of the others
-  let zero = settings.remoteNodes.length - matchingBlockHeights;
+  let zero = matchingBlockHeights - settings.remoteNodes.length;
   sameBlockHeights = zero >= settings.minBlockHeightNodeMatch;
+
+
   if (sameBlockHeights) {
     console.success("Your node seems to have the correct height");
     bot.sendMessage(
