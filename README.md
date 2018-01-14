@@ -65,7 +65,14 @@ Opens a new keyboard that enables to:
  
 ## Security
 
-The bot is programmed in a way that it only replies to your requests. For certain tasks which like the rebuild flow, it requests a [One Time Password](https://en.wikipedia.org/wiki/One-time_password) (It's the same thing as the 2FA codes).
+The bot is programmed in a way that it only replies to your requests. For certain tasks like the rebuild flow, it requests a [One Time Password](https://en.wikipedia.org/wiki/One-time_password) in order to perform the action.
+
+## Screenshots
+<img src="https://github.com/xunga/lisk-cute-assistant/blob/master/imgs/screen0.jpg?raw=true" data-canonical-src="https://github.com/xunga/lisk-cute-assistant/blob/master/imgs/screen0.jpg?raw=true" width="400" />   <img src="https://github.com/xunga/lisk-cute-assistant/blob/master/imgs/screen1.jpg?raw=true" data-canonical-src="https://github.com/xunga/lisk-cute-assistant/blob/master/imgs/screen1.jpg?raw=true" width="400" />
+
 
 ### Todos
 - Add the possibility to do active log monitoring. Needs to be performance checked
+- Multi node management (thanks @alepop)
+
+# Built with ❤️ by [Carbonara](lisk://main/voting/vote?votes=carbonara) and [Lisk Elite](http://liskelite.com)
