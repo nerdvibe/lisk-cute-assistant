@@ -10,7 +10,7 @@ let logsBatch = []; //used to batching logs when tailing
 
 // Initializing the tailing
 try {
-  tail = new Tail(settings.liskPWDFolder + "/foo.txt"); // logs/lisk.log
+  tail = new Tail(settings.liskPWDFolder + "/logs/lisk.log"); // logs/lisk.log
   tail.on("line", function(data) {
     if (followLogs) {
       logsBatch.push(data);
@@ -72,10 +72,11 @@ const toggleTailing = () => {
 // Todo: test in testnet before release!
 const respondRecentLogs = async () => {
   const recentLogsExec = `
-    cd ${settings.liskPWDFolder}/logs/ && tail lisk.log -n 3000
+    cd ${settings.liskPWDFolder}/logs/ && tail lisk.log -n 2000
   `;
 
   exec(recentLogsExec, function(err, stdout, stderr) {
+    console.log(err);
     if (err || stderr) {
       bot.sendMessage(
         settings.chatId,
@@ -120,8 +121,8 @@ const respondGREPLogs = async type => {
     case "SIGKILL":
       execGREPLogs(consts.logsGREP.SIGKILL);
       break;
-    case "SIGABERT":
-      execGREPLogs(consts.logsGREP.SIGABERT);
+    case "SIGABRT":
+      execGREPLogs(consts.logsGREP.SIGABRT);
       break;
     default:
       break;
@@ -133,7 +134,7 @@ const execGREPLogs = async type => {
   let forkLogsExec;
 
   if (type === consts.logsGREP.ALL)
-    forkLogsExec = `cd ${settings.liskPWDFolder}/logs/ && cat lisk.log | grep '"cause"'`;
+    forkLogsExec = `cd ${settings.liskPWDFolder}/logs/ && tail lisk.log -n 10000 | grep '"cause"'`;
 
   if (
     type === consts.logsGREP["1"] ||
@@ -142,21 +143,22 @@ const execGREPLogs = async type => {
     type === consts.logsGREP["4"] ||
     type === consts.logsGREP["5"]
   )
-    forkLogsExec = `cd ${settings.liskPWDFolder}/logs/ && cat lisk.log | grep '"cause" : ${parseInt(
+    forkLogsExec = `cd ${settings.liskPWDFolder}/logs/ && tail lisk.log -n 10000 | grep '"cause":${parseInt(
       type
     )}'`;
 
+
   if (type === consts.logsGREP.CONSENSUS)
-    forkLogsExec = `cd ${settings.liskPWDFolder}/logs/ && cat lisk.log | grep 'consensus`;
+    forkLogsExec = `cd ${settings.liskPWDFolder}/logs/ && tail lisk.log -n 10000 | grep "consensus"`;
 
   if (type === consts.logsGREP.SIGKILL)
-    forkLogsExec = `cd ${settings.liskPWDFolder}/logs/ && cat lisk.log | grep 'SIGKILL`;
+    forkLogsExec = `cd ${settings.liskPWDFolder}/logs/ && tail lisk.log -n 10000 | grep "SIGKILL"`;
 
-  if (type === consts.logsGREP.SIGABERT)
-    forkLogsExec = `cd ${settings.liskPWDFolder}/logs/ && cat lisk.log | grep 'SIGABERT`;
+  if (type === consts.logsGREP.SIGABRT)
+    forkLogsExec = `cd ${settings.liskPWDFolder}/logs/ && tail lisk.log -n 10000 | grep "SIGABRT"`;
 
-  exec(forkLogsExec, function(err, stdout, stderr) {
-    if (err || stderr) {
+  exec(forkLogsExec, async function(err, stdout, stderr) {
+    if ((err || stderr) && (err.killed)) {
       bot.sendMessage(
         settings.chatId,
         `Omg! I didn't manage to get the logs: \n${stderr}`
@@ -168,7 +170,12 @@ const execGREPLogs = async type => {
         );
       return;
     }
-    bot.sendMessage(settings.chatId, "📄 Here are the fork logs:");
+    else if(err && !err.killed)
+      return bot.sendMessage(
+        settings.chatId,
+        `No logs found with that query in the last 500 lines of logs...`
+      );
+    await bot.sendMessage(settings.chatId, "📄 Here are the fork logs:");
     sendChunkedMessage(stdout);
   });
 };
