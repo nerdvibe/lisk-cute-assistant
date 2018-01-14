@@ -5,20 +5,17 @@ const exec = require("child_process").exec;
 const respondServerStatus = async () => {
   const serverStatusExec = `
     cd ${settings.liskPWDFolder}
-    height+=$(bash lisk.sh status)
-    height+="
-    CPU Usage: "
-    height+=$(grep 'cpu ' /proc/stat | awk '{usage=($2+$4)*100/($2+$4+$5)} END {print usage "%"}')
-    height+="
-    Disk Usage: "
-    height+=$(df /home | awk '{ print $5 }' | tail -n 1)
-    height+="
-    RAM Usage: "
-    height+=$(free | grep Mem | awk '{print $3/$2 * 100.0}')
-    height+="%
-    "
-    
-    echo $height
+    bash lisk.sh status
+    echo
+    echo CPU Usage:
+    grep 'cpu ' /proc/stat | awk '{usage=($2+$4)*100/($2+$4+$5)} END {print usage "%"}'
+    echo
+    echo Disk Usage:
+   
+    df /home | awk '{ print $5 }' | tail -n 1
+    echo
+    echo RAM Usage:
+    free | grep Mem | awk '{print $3/$2 * 100.0}'
   `;
 
   exec(serverStatusExec, function(err, stdout, stderr) {
