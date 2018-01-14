@@ -60,7 +60,7 @@ Opens a new keyboard that enables to:
  - Forks cause 5
  - All forks
  - SIGKILL
- - SIGABERT
+ - SIGABRT
  - "Consensus"
  
 ## Security
