@@ -20,12 +20,14 @@ const setIntent = intent => {
 const sendChunkedMessage = async message => {
   const throttler = chunk => {
     return new Promise(resolve => {
-      setTimeout(() => resolve(bot.sendMessage(settings.chatId, chunk)), 500);
+      if(chunk.length < 1)
+        return resolve();
+      setTimeout(() => resolve(bot.sendMessage(settings.chatId, chunk)), 1500);
     });
   };
 
   if (message.length > 3000) {
-    const chunkedMessages = message.match(/.{1,3000}/g);
+    const chunkedMessages = message.match(/[\s\S]{1,3000}/g);
     for (let chunk of chunkedMessages) {
       await throttler(chunk);
     }
