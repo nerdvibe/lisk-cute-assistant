@@ -4,10 +4,9 @@ const { bot } = require("./telegram");
 const exec = require("child_process").exec;
 
 // Todo: test in testnet before release!
-const startRebuild = async snapshotServerURL => {
+const startRebuild = async (snapshotServerURL) => {
   const serverStatusExec = `
-    cd ${settings.liskPWDFolder} && bash lisk.sh rebuild -u ${snapshotServerURL} -f latest.gz
-  `;
+    cd ${settings.liskPWDFolder} && bash lisk.sh rebuild -u ${snapshotServerURL}`;
 
   bot.sendMessage(settings.chatId, "🕑 This will take a while...");
 
