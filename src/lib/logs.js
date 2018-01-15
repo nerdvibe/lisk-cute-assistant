@@ -134,7 +134,7 @@ const execGREPLogs = async type => {
   let forkLogsExec;
 
   if (type === consts.logsGREP.ALL)
-    forkLogsExec = `cd ${settings.liskPWDFolder}/logs/ && tail lisk.log -n 10000 | grep '"cause"'`;
+    forkLogsExec = `cd ${settings.liskPWDFolder}/logs/ && tail lisk.log -n 100000 | grep '"cause"'`;
 
   if (
     type === consts.logsGREP["1"] ||
@@ -143,19 +143,19 @@ const execGREPLogs = async type => {
     type === consts.logsGREP["4"] ||
     type === consts.logsGREP["5"]
   )
-    forkLogsExec = `cd ${settings.liskPWDFolder}/logs/ && tail lisk.log -n 10000 | grep '"cause":${parseInt(
+    forkLogsExec = `cd ${settings.liskPWDFolder}/logs/ && tail lisk.log -n 100000 | grep '"cause":${parseInt(
       type
     )}'`;
 
 
   if (type === consts.logsGREP.CONSENSUS)
-    forkLogsExec = `cd ${settings.liskPWDFolder}/logs/ && tail lisk.log -n 10000 | grep "consensus"`;
+    forkLogsExec = `cd ${settings.liskPWDFolder}/logs/ && tail lisk.log -n 1000 | grep "consensus"`;
 
   if (type === consts.logsGREP.SIGKILL)
-    forkLogsExec = `cd ${settings.liskPWDFolder}/logs/ && tail lisk.log -n 10000 | grep "SIGKILL"`;
+    forkLogsExec = `cd ${settings.liskPWDFolder}/logs/ && tail lisk.log -n 100000 | grep "SIGKILL"`;
 
   if (type === consts.logsGREP.SIGABRT)
-    forkLogsExec = `cd ${settings.liskPWDFolder}/logs/ && tail lisk.log -n 10000 | grep "SIGABRT"`;
+    forkLogsExec = `cd ${settings.liskPWDFolder}/logs/ && tail lisk.log -n 100000 | grep "SIGABRT"`;
 
   exec(forkLogsExec, async function(err, stdout, stderr) {
     if ((err || stderr) && (err.killed)) {
@@ -173,7 +173,7 @@ const execGREPLogs = async type => {
     else if(err && !err.killed)
       return bot.sendMessage(
         settings.chatId,
-        `No logs found with that query in the last 500 lines of logs...`
+        `No logs found with that query in the last lines of logs...`
       );
     await bot.sendMessage(settings.chatId, "📄 Here are the fork logs:");
     sendChunkedMessage(stdout);
