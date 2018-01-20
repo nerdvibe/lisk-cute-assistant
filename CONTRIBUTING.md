@@ -2,7 +2,7 @@
 
 If you are interested in contributing to lisk-cute-assistant, well you are a wonderful person.
 
-We are always looking for people to help to bring Liskhunt to the next level.
+We are always looking for people to help to bring lisk-cute-assistant to the next level.
 
 
 ## The flow
