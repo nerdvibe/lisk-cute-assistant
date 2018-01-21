@@ -14,7 +14,7 @@ exports.cpuThreshold = 50; // Sends a notification to the user when cpu usage is
 exports.spaceUsageThreshold = 50; // Sends a notification to the user when memory usage is over this %
 exports.memoryThreshold = 50; // Sends a notification to the user when memory usage is over this %
 
-exports.liskPWDFolder = "/home/lisk/lisk-test"; // the path of your lisk node
+exports.liskPWDFolder = "/home/lisk/lisk-main"; // the path of your lisk node
 
 exports.remoteNodes = [
   //nodes to check for the block heights
