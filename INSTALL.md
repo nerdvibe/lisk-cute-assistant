@@ -1,8 +1,19 @@
 # How to install lisk-cute-assistant
 
+#### Index
+- [Pre-requisites](https://github.com/xunga/lisk-cute-assistant/blob/master/INSTALL.md#pre-requisites)
+  - [Telegram API Token](https://github.com/xunga/lisk-cute-assistant/blob/master/INSTALL.md#telegram-api)
+  - [Dependencies](https://github.com/xunga/lisk-cute-assistant/blob/master/INSTALL.md#dependencies)
+     - [Git](https://github.com/xunga/lisk-cute-assistant/blob/master/INSTALL.md#git)
+     - [Node](https://github.com/xunga/lisk-cute-assistant/blob/master/INSTALL.md#node)
+
+- [Installation](https://github.com/xunga/lisk-cute-assistant/blob/master/INSTALL.md#lets-install)
+  - [Mainnet](https://github.com/xunga/lisk-cute-assistant/blob/master/INSTALL.md#mainnet)
+  - [Testnet](https://github.com/xunga/lisk-cute-assistant/blob/master/INSTALL.md#testnet)
+
 ## Pre-requisites
 
-### Telegram API
+### Telegram API Token
 For the installation you will need to create a bot for Telegram. Here is how to do it:
  - Search for the [@BotFather](https://telegram.me/BotFather) on Telegram ![image](https://raw.githubusercontent.com/xunga/lisk-cute-assistant/master/imgs/install/step1_search.png)
  - Send a `/newbot` command to the BothFather  ![image](https://github.com/xunga/lisk-cute-assistant/blob/master/imgs/install/step2_chat.png?raw=true)
@@ -28,6 +39,8 @@ export NVM_DIR="$HOME/.nvm"
 - Let's install node `nvm install v8.9.4`
 
 Done with the pre-requisites
+
+--------
 
 ## Let's install
 
