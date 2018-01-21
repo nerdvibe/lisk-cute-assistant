@@ -22,16 +22,7 @@ Lisk-cute-assistant doesn't perform any kind of automatic operation besides chec
 
 ## How to run
 
-- Clone the project in your lisk node instance
-- Install the required packges with `npm install`
-- We need to generate a secret to add in your OTP generator (e.g. Google Authenticator) via `npm run generate-password`
-- Scan the QR Code with your Google Authenticator app
-- Take note of the secret, we'll use it in the next step
-- Create a `src/config.js` file from `src/config_sample.js` and here insert the secret previously generated in the `OTPsecret`variable and leave the `chatId` var empty. In order to generate a telegram API, you'll need to get in touch with the Botfather. [Follow this tutorial if it's the first time ](https://core.telegram.org/bots#3-how-do-i-create-a-bot).
-- Run the application with `npm run`. 
-- Send a `/start` message to your bot on telegram. The bot will reply to your message with your telegram id.
-- Add your telegram id in the 'chatId' var in 'src/config.js'
-- You are ready to go! Run the application in the background (TODO: Add example)
+[Please follow the](https://github.com/xunga/lisk-cute-assistant/blob/master/INSTALL.md) `INSTALL.md` [file](https://github.com/xunga/lisk-cute-assistant/blob/master/INSTALL.md)
 
 ## Functionalities
 
