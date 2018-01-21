@@ -72,7 +72,8 @@ The bot is programmed in a way that it only replies to your requests. For certai
 
 
 ### Todos
-- Add the possibility to do active log monitoring. Needs to be performance checked
 - Multi node management (thanks @alepop)
+- External heartbeat check
+- Improve the snapshot rebuild possibilities (add other snapshot servers)
 
 # Built with ❤️ by [Carbonara](lisk://main/voting/vote?votes=carbonara) and [Lisk Elite](http://liskelite.com)
