@@ -75,5 +75,6 @@ The bot is programmed in a way that it only replies to your requests. For certai
 - Multi node management (thanks @alepop)
 - External heartbeat check
 - Improve the snapshot rebuild possibilities (add other snapshot servers)
+- When rebuilding we should stop checking the block height, since the the node is not running (d'oh)
 
 # Built with ❤️ by [Carbonara](lisk://main/voting/vote?votes=carbonara) and [Lisk Elite](http://liskelite.com)
