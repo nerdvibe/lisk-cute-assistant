@@ -46,7 +46,7 @@ Done with the pre-requisites
 
 ### Mainnet
 
-- Access the your node
+- Access your node
 - Clone the repository `git clone https://github.com/xunga/lisk-cute-assistant`
 - Access the folder `cd lisk-cute-assistant/`
 - Install the node packages `npm install`
