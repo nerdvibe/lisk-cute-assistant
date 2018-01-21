@@ -66,7 +66,7 @@ Done with the pre-requisites
 - Congratulations! We just need to start the bot. `npm start`
 
 Now the bot should send you a welcome message and you should be all settled. Is a good practice to the test if the OTP password works by sending the command `/test OTP_PASSWORD`.
-<img src="https://github.com/xunga/lisk-cute-assistant/blob/master/imgs/install/step5_reboot.png?raw=true" data-canonical-src="https://github.com/xunga/lisk-cute-assistant/blob/master/imgs/install/step5_reboot.png?raw=true" width="400" />
+
 
 ### Testnet
 
