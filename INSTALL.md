@@ -39,11 +39,15 @@ Done with the pre-requisites
 - Install the node packages `npm install`
 - Copy the and rename the sample config `cp src/config_sample.js src/config.js`
 - Time to generate a One Time Passwor to add to Google Authenticator. Run `npm run generate-password`. This script returns you a QR-Code and a secret.
-- Scan the QR-Code with Google Authenticator ![image](https://github.com/xunga/lisk-cute-assistant/blob/master/imgs/install/step3_generate_qr.png?raw=true)
+- Scan the QR-Code with Google Authenticator 
+
+![image](https://github.com/xunga/lisk-cute-assistant/blob/master/imgs/install/step3_generate_qr.png?raw=true)
 - Copy the generated secret and paste into the variable `exports.OTPsecret` inside the `src/config.js` file.
 - Copy the previously generated telegram API into the variable `exports.telegramAPIToken` inside the `src/config.js` file.
 - Now we can get the chat id... We can run `npm start`
-- Write to your bot and it will return you the chat id. Copy this chat id into the variable `exports.chatId` inside the `src/config.js` file. ![image](https://github.com/xunga/lisk-cute-assistant/blob/master/imgs/install/step4_get_chatid.png?raw=true)
+- Write to your bot and it will return you the chat id. Copy this chat id into the variable `exports.chatId` inside the `src/config.js` file. 
+
+![image](https://github.com/xunga/lisk-cute-assistant/blob/master/imgs/install/step4_get_chatid.png?raw=true)
 - Check the rest of the `src/config.js` file, if everything is right
 - You should be almost ready to go! We just need to stop the bot. Run `npm stop`.
 - Congratulations! We just need to start the bot. `npm start`
