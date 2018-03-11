@@ -27,4 +27,54 @@ const startRebuild = async (snapshotServerURL) => {
   });
 };
 
+const setForgingOn = async (nodeSecret) => {
+  const serverStatusExec = `
+    curl -k -H "Content-Type: application/json" -X POST -d '{"secret":"${nodeSecret}"}' http://localhost:7000/api/delegates/forging/enable`;
+
+  //bot.sendMessage(settings.chatId, "🕑 This will take a while...");
+
+  exec(serverStatusExec, function(err, stdout, stderr) {
+    var apiReply = JSON.parse(stdout);
+    if ((err || stderr) && !apiReply.success) {
+      bot.sendMessage(
+        settings.chatId,
+        `Omg! I didn't manage to switch on forging: \n${stderr}`
+      );
+      if (stdout)
+        bot.sendMessage(
+          settings.chatId,
+          `This is what I got anyway (stdout): \n${stdout}`
+        );
+      return;
+    }
+    bot.sendMessage(settings.chatId, "Forging was successfully enabled for address: " + apiReply.address);
+  });
+};
+
+const setForgingOff = async (nodeSecret) => {
+  const serverStatusExec = `
+    curl -k -H "Content-Type: application/json" -X POST -d '{"secret":"${nodeSecret}"}' http://localhost:7000/api/delegates/forging/disable`;
+
+  //bot.sendMessage(settings.chatId, "🕑 This will take a while...");
+
+  exec(serverStatusExec, function(err, stdout, stderr) {
+    var apiReply = JSON.parse(stdout);
+    if ((err || stderr) && !apiReply.success) {
+      bot.sendMessage(
+        settings.chatId,
+        `Omg! I didn't manage to switch off forging: \n${stderr}`
+      );
+      if (stdout)
+        bot.sendMessage(
+          settings.chatId,
+          `This is what I got anyway (stdout): \n${stdout}`
+        );
+      return;
+    }
+    bot.sendMessage(settings.chatId, "Forging was successfully disabled for address: " + apiReply.address);
+  });
+};
+
 exports.startRebuild = startRebuild;
+exports.setForgingOn = setForgingOn;
+exports.setForgingOff = setForgingOff;

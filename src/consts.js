@@ -1,7 +1,11 @@
 exports.intents =
   {
     ASK_PASSWORD_REBUILD_GREENDRAGON_MAIN:
-      "ASK_PASSWORD_REBUILD_GREENDRAGON_MAIN"
+      "ASK_PASSWORD_REBUILD_GREENDRAGON_MAIN",
+    ASK_PASSWORD_SET_FORGING_OFF:
+      "ASK_PASSWORD_SET_FORGING_OFF",
+      ASK_PASSWORD_SET_FORGING_ON:
+      "ASK_PASSWORD_SET_FORGING_ON",
   };
 
 exports.snapshot_servers =
@@ -15,6 +19,17 @@ exports.menu = {
       ["🔎 Block Heights", "📦 Server Status"],
       ["🔑 Rebuild from snapshot Gr33ndragon"],
       ["📄 Get Logs"],
+      ["🏠 Menu"]
+    ]
+  }
+};
+
+exports.menuForge = {
+  reply_markup: {
+    keyboard: [
+      ["🔎 Block Heights", "📦 Server Status"],
+      ["🔑 Rebuild from snapshot Gr33ndragon"],
+      ["📄 Get Logs","🔑 Forge On","🔑 Forge Off"],
       ["🏠 Menu"]
     ]
   }

@@ -6,6 +6,8 @@ const { respondBlockHeights } = require("./lib/blockheights");
 const { respondServerStatus } = require("./lib/server");
 const { testAuthenticationOTP } = require("./lib/auth");
 const { startRebuild } = require("./lib/manageNode");
+const { setForgingOn } = require("./lib/manageNode");
+const { setForgingOff } = require("./lib/manageNode");
 const {
   respondRecentLogs,
   respondGREPLogs,
@@ -19,6 +21,13 @@ let promptIntent = {
   lastIntent: ""
 };
 let followLogs = false;
+
+let mainMenu ="";
+if (settings.enableDisableForging) {
+  mainMenu = consts.menuForge;
+} else {
+  mainMenu = consts.menu;
+}
 
 console.log(`
 
@@ -63,13 +72,13 @@ bot.onText(/(\/s|\/start|hey|hi|help|hello|yo|menu|menú|cancel|back)/i, msg => 
     bot.sendMessage(
       settings.chatId,
       `👋 Hey ${msg.from.first_name}! How can I help you with?`,
-      consts.menu
+      mainMenu
     );
   else
     bot.sendMessage(
         msg.from.id,
         `👋 Hey ${msg.from.first_name}! Your id is: ${msg.from.id}`,
-        consts.menu
+        mainMenu
     );
   console.log(
     "Client connected:",
@@ -111,7 +120,7 @@ bot.onText(/(follow logs|stop logs|Stop Following logs)/i, () => {
     bot.sendMessage(
       settings.chatId,
       `👌 Okay stopping the logs tailing!`,
-      consts.menu
+      mainMenu
     );
 });
 
@@ -135,6 +144,34 @@ bot.onText(/get logs/i, () => {
       ]
     }
   });
+});
+
+// Forge off flow start
+bot.onText(/Forge Off/i, async () => {
+  promptIntent = setIntent(consts.intents.ASK_PASSWORD_SET_FORGING_OFF);
+  return bot.sendMessage(
+    settings.chatId,
+    `🔐 Please provide the password to rebuild..`,
+    {
+      reply_markup: {
+        keyboard: [["❌ Cancel"]]
+      }
+    }
+  );
+});
+
+// Forge on flow start
+bot.onText(/Forge On/i, async () => {
+  promptIntent = setIntent(consts.intents.ASK_PASSWORD_SET_FORGING_ON);
+  return bot.sendMessage(
+    settings.chatId,
+    `🔐 Please provide the password to rebuild..`,
+    {
+      reply_markup: {
+        keyboard: [["❌ Cancel"]]
+      }
+    }
+  );
 });
 
 // Rebuild flow start
@@ -161,7 +198,7 @@ bot.on("message", async function(msg) {
   prompting = true; //avoiding to go in default message
 
   if (msg.text === "❌ Cancel") {
-    bot.sendMessage(settings.chatId, `👌 Okay mission aborted!`, consts.menu);
+    bot.sendMessage(settings.chatId, `👌 Okay mission aborted!`, mainMenu);
     setTimeout(cleanIntent, 200);
     return;
   }
@@ -179,6 +216,58 @@ bot.on("message", async function(msg) {
         `✅ You are authenticated! Now I'll start the rebuild, fasten your seat belts...`
       );
       startRebuild(consts.snapshot_servers.GREENDRAGON_MAIN);
+    } else {
+      bot.sendMessage(
+        settings.chatId,
+        `I'm sorry, but that's not a valid password... Try again...`,
+        {
+          reply_markup: {
+            keyboard: [["❌ Cancel"]]
+          }
+        }
+      );
+    }
+  }
+
+  if (
+    promptIntent.lastIntent ===
+    consts.intents.ASK_PASSWORD_SET_FORGING_OFF
+  ) {
+    const otpToken = msg.text.toString();
+    const validOTP = await testAuthenticationOTP(otpToken, true);
+
+    if (validOTP) {
+      bot.sendMessage(
+        settings.chatId,
+        `✅ You are authenticated! Now I'll start switching off forging, fasten your seat belts...`
+      );
+      setForgingOff(settings.nodeSecret);
+    } else {
+      bot.sendMessage(
+        settings.chatId,
+        `I'm sorry, but that's not a valid password... Try again...`,
+        {
+          reply_markup: {
+            keyboard: [["❌ Cancel"]]
+          }
+        }
+      );
+    }
+  }
+
+  if (
+    promptIntent.lastIntent ===
+    consts.intents.ASK_PASSWORD_SET_FORGING_ON
+  ) {
+    const otpToken = msg.text.toString();
+    const validOTP = await testAuthenticationOTP(otpToken, true);
+
+    if (validOTP) {
+      bot.sendMessage(
+        settings.chatId,
+        `✅ You are authenticated! Now I'll start switching on forging, fasten your seat belts...`
+      );
+      setForgingOn(settings.nodeSecret);
     } else {
       bot.sendMessage(
         settings.chatId,
