@@ -5,15 +5,13 @@ const consts = require("./consts");
 const { respondBlockHeights } = require("./lib/blockheights");
 const { respondServerStatus } = require("./lib/server");
 const { testAuthenticationOTP } = require("./lib/auth");
-const { startRebuild } = require("./lib/manageNode");
-const { setForgingOn } = require("./lib/manageNode");
-const { setForgingOff } = require("./lib/manageNode");
+const { startRebuild, setForgingOn, setForgingOff } = require("./lib/manageNode");
 const {
   respondRecentLogs,
   respondGREPLogs,
   toggleTailing
 } = require("./lib/logs");
-const { cleanIntent, setIntent, sendChunkedMessage } = require("./lib/utils");
+const { cleanIntent, setIntent, sendChunkedMessage, createMenu } = require("./lib/utils");
 const { bot } = require("./lib/telegram");
 let promptIntent = {
   //used for making the bot interactive when waiting for user input
@@ -22,7 +20,7 @@ let promptIntent = {
 };
 let followLogs = false;
 
-let mainMenu ="";
+let mainMenu = createMenu();
 if (settings.enableDisableForging) {
   mainMenu = consts.menuForge;
 } else {

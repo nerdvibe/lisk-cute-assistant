@@ -31,8 +31,6 @@ const setForgingOn = async (nodeSecret) => {
   const serverStatusExec = `
     curl -k -H "Content-Type: application/json" -X POST -d '{"secret":"${nodeSecret}"}' http://localhost:7000/api/delegates/forging/enable`;
 
-  //bot.sendMessage(settings.chatId, "🕑 This will take a while...");
-
   exec(serverStatusExec, function(err, stdout, stderr) {
     var apiReply = JSON.parse(stdout);
     if ((err || stderr) && !apiReply.success) {
@@ -54,8 +52,6 @@ const setForgingOn = async (nodeSecret) => {
 const setForgingOff = async (nodeSecret) => {
   const serverStatusExec = `
     curl -k -H "Content-Type: application/json" -X POST -d '{"secret":"${nodeSecret}"}' http://localhost:7000/api/delegates/forging/disable`;
-
-  //bot.sendMessage(settings.chatId, "🕑 This will take a while...");
 
   exec(serverStatusExec, function(err, stdout, stderr) {
     var apiReply = JSON.parse(stdout);
