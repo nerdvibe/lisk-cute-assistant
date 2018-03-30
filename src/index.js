@@ -21,11 +21,6 @@ let promptIntent = {
 let followLogs = false;
 
 let mainMenu = createMenu();
-if (settings.enableDisableForging) {
-  mainMenu = consts.menuForge;
-} else {
-  mainMenu = consts.menu;
-}
 
 console.log(`
 
