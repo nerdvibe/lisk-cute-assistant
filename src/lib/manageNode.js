@@ -1,3 +1,4 @@
+const awesome = require("awesome_starter");
 const settings = require("../config");
 const consts = require("../consts");
 const { bot } = require("./telegram");
@@ -29,7 +30,7 @@ const startRebuild = async (snapshotServerURL) => {
 };
 
 const setForgingOn = async () => {
-  let nodeURL = settings.localNodeURL.substring(1,settings.localNodeURL.length-23);
+  let nodeURL = settings.localNodeURL.substring(0,settings.localNodeURL.length-23);
   const replyForgeOn = await axios
   .post( nodeURL + "/api/delegates/forging/enable" , { secret: settings.nodeSecret } )
   .catch((error) => {
@@ -46,7 +47,7 @@ const setForgingOn = async () => {
       `Omg! I didn't manage to switch on forging: \n`
     );
     awesome.errors.generalCatchCallback("", "set forging on");
-  } else if ( !replyForgeOn.data.success & replyForgeOn.data.error ){
+  } else if ( !replyForgeOn.data.success & replyForgeOn.data.error !="" ){
     bot.sendMessage(
       settings.chatId,
       `Omg! I didn't manage to switch on forging: \n` + replyForgeOn.data.error
@@ -57,7 +58,7 @@ const setForgingOn = async () => {
 }
 
 const setForgingOff = async () => {
-  let nodeURL = settings.localNodeURL.substring(1,settings.localNodeURL.length-23);
+  let nodeURL = settings.localNodeURL.substring(0,settings.localNodeURL.length-23);
   const replyForgeOff = await axios
   .post( nodeURL + "/api/delegates/forging/enable" , { secret: settings.nodeSecret } )
   .catch((error) => {
@@ -74,10 +75,10 @@ const setForgingOff = async () => {
       `Omg! I didn't manage to switch on forging: \n`
     );
     awesome.errors.generalCatchCallback("", "set forging on");
-  } else if ( !replyForgeOff.data.success & replyForgeOff.data.error ){
+  } else if ( !replyForgeOff.data.success & replyForgeOff.data.error != "" ){
     bot.sendMessage(
       settings.chatId,
-      `Omg! I didn't manage to switch on forging: \n` + replyForgeOn.data.error
+      `Omg! I didn't manage to switch on forging: \n` + replyForgeOff.data.error
     );
     awesome.errors.generalCatchCallback("", "set forging on");
   } else if ( replyForgeOff.data.success == true )
