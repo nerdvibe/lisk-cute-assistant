@@ -1,7 +1,9 @@
+const awesome = require("awesome_starter");
 const settings = require("../config");
 const consts = require("../consts");
 const { bot } = require("./telegram");
 const exec = require("child_process").exec;
+const axios = require("axios");
 
 // Todo: test in testnet before release!
 const startRebuild = async (snapshotServerURL) => {
@@ -27,4 +29,62 @@ const startRebuild = async (snapshotServerURL) => {
   });
 };
 
+const setForgingOn = async () => {
+  let nodeURL = settings.localNodeURL.substring(0,settings.localNodeURL.length-23);
+  const replyForgeOn = await axios
+  .post( nodeURL + "/api/delegates/forging/enable" , { secret: settings.nodeSecret } )
+  .catch((error) => {
+    bot.sendMessage(
+      settings.chatId,
+      `Omg! I didn't manage to switch on forging: \n` + error
+    );
+    awesome.errors.generalCatchCallback("", "set forging on");
+  });
+
+  if (!replyForgeOn || !replyForgeOn.data ){
+    bot.sendMessage(
+      settings.chatId,
+      `Omg! I didn't manage to switch on forging: \n`
+    );
+    awesome.errors.generalCatchCallback("", "set forging on");
+  } else if ( !replyForgeOn.data.success & replyForgeOn.data.error !="" ){
+    bot.sendMessage(
+      settings.chatId,
+      `Omg! I didn't manage to switch on forging: \n` + replyForgeOn.data.error
+    );
+    awesome.errors.generalCatchCallback("", "set forging on");
+  } else if ( replyForgeOn.data.success == true )
+    bot.sendMessage(settings.chatId, "Forging was successfully enabled");
+}
+
+const setForgingOff = async () => {
+  let nodeURL = settings.localNodeURL.substring(0,settings.localNodeURL.length-23);
+  const replyForgeOff = await axios
+  .post( nodeURL + "/api/delegates/forging/enable" , { secret: settings.nodeSecret } )
+  .catch((error) => {
+    bot.sendMessage(
+      settings.chatId,
+      `Omg! I didn't manage to switch on forging: \n` + error
+    );
+    awesome.errors.generalCatchCallback("", "set forging on");
+  });
+
+  if (!replyForgeOff || !replyForgeOff.data ){
+    bot.sendMessage(
+      settings.chatId,
+      `Omg! I didn't manage to switch on forging: \n`
+    );
+    awesome.errors.generalCatchCallback("", "set forging on");
+  } else if ( !replyForgeOff.data.success & replyForgeOff.data.error != "" ){
+    bot.sendMessage(
+      settings.chatId,
+      `Omg! I didn't manage to switch on forging: \n` + replyForgeOff.data.error
+    );
+    awesome.errors.generalCatchCallback("", "set forging on");
+  } else if ( replyForgeOff.data.success == true )
+    bot.sendMessage(settings.chatId, "Forging was successfully enabled");
+}
+
 exports.startRebuild = startRebuild;
+exports.setForgingOn = setForgingOn;
+exports.setForgingOff = setForgingOff;

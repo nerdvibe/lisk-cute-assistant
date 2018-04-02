@@ -1,5 +1,6 @@
 const { bot } = require("./telegram");
 const settings = require("../config");
+const consts = require("../consts");
 
 const cleanIntent = () => {
   return {
@@ -38,6 +39,17 @@ const sendChunkedMessage = async message => {
   }
 };
 
+const createMenu = () => {
+  let baseMenu = consts.menu;
+  
+  if (settings.enableDisableForging){
+    baseMenu.reply_markup.keyboard[2].push("🔑 Forge On");
+    baseMenu.reply_markup.keyboard[2].push("🔑 Forge Off");
+  }
+  return baseMenu;
+}
+
 exports.cleanIntent = cleanIntent;
 exports.setIntent = setIntent;
 exports.sendChunkedMessage = sendChunkedMessage;
+exports.createMenu = createMenu;
