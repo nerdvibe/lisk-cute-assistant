@@ -1,6 +1,6 @@
 const { bot } = require("./telegram");
 const settings = require("../config");
-const consts = require("./consts");
+const consts = require("../consts");
 
 const cleanIntent = () => {
   return {
@@ -46,6 +46,7 @@ const createMenu = () => {
     baseMenu.reply_markup.keyboard[2].push("🔑 Forge On");
     baseMenu.reply_markup.keyboard[2].push("🔑 Forge Off");
   }
+  return baseMenu;
 }
 
 exports.cleanIntent = cleanIntent;
