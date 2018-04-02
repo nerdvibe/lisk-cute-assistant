@@ -5,13 +5,22 @@ const consts = require("./consts");
 const { respondBlockHeights } = require("./lib/blockheights");
 const { respondServerStatus } = require("./lib/server");
 const { testAuthenticationOTP } = require("./lib/auth");
-const { startRebuild, setForgingOn, setForgingOff } = require("./lib/manageNode");
+const {
+  startRebuild,
+  setForgingOn,
+  setForgingOff
+} = require("./lib/manageNode");
 const {
   respondRecentLogs,
   respondGREPLogs,
   toggleTailing
 } = require("./lib/logs");
-const { cleanIntent, setIntent, sendChunkedMessage, createMenu } = require("./lib/utils");
+const {
+  cleanIntent,
+  setIntent,
+  sendChunkedMessage,
+  createMenu
+} = require("./lib/utils");
 const { bot } = require("./lib/telegram");
 let promptIntent = {
   //used for making the bot interactive when waiting for user input
@@ -61,7 +70,7 @@ if (settings.chatId && settings.rebootWelcome) {
 //Menu
 bot.onText(/(\/s|\/start|hey|hi|help|hello|yo|menu|menú|cancel|back)/i, msg => {
   promptIntent = cleanIntent();
-  if(settings.chatId)
+  if (settings.chatId)
     bot.sendMessage(
       settings.chatId,
       `👋 Hey ${msg.from.first_name}! How can I help you with?`,
@@ -69,9 +78,9 @@ bot.onText(/(\/s|\/start|hey|hi|help|hello|yo|menu|menú|cancel|back)/i, msg => 
     );
   else
     bot.sendMessage(
-        msg.from.id,
-        `👋 Hey ${msg.from.first_name}! Your id is: ${msg.from.id}`,
-        mainMenu
+      msg.from.id,
+      `👋 Hey ${msg.from.first_name}! Your id is: ${msg.from.id}`,
+      mainMenu
     );
   console.log(
     "Client connected:",
@@ -169,7 +178,9 @@ bot.onText(/Forge On/i, async () => {
 
 // Rebuild flow start
 bot.onText(/🔑 Rebuild from snapshot Gr33ndragon/, async () => {
-  promptIntent = setIntent(consts.intents.ASK_PASSWORD_REBUILD_GREENDRAGON_MAIN);
+  promptIntent = setIntent(
+    consts.intents.ASK_PASSWORD_REBUILD_GREENDRAGON_MAIN
+  );
   return bot.sendMessage(
     settings.chatId,
     `🔐 Please provide the password to rebuild..`,
@@ -222,10 +233,7 @@ bot.on("message", async function(msg) {
     }
   }
 
-  if (
-    promptIntent.lastIntent ===
-    consts.intents.ASK_PASSWORD_SET_FORGING_OFF
-  ) {
+  if (promptIntent.lastIntent === consts.intents.ASK_PASSWORD_SET_FORGING_OFF) {
     const otpToken = msg.text.toString();
     const validOTP = await testAuthenticationOTP(otpToken, true);
 
@@ -248,10 +256,7 @@ bot.on("message", async function(msg) {
     }
   }
 
-  if (
-    promptIntent.lastIntent ===
-    consts.intents.ASK_PASSWORD_SET_FORGING_ON
-  ) {
+  if (promptIntent.lastIntent === consts.intents.ASK_PASSWORD_SET_FORGING_ON) {
     const otpToken = msg.text.toString();
     const validOTP = await testAuthenticationOTP(otpToken, true);
 
