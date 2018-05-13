@@ -10,9 +10,9 @@ exports.rebootWelcome = true; // The reboot telegram message
 
 exports.executeBlockHeightsCron = true;
 exports.executeServerStatusCron = false;
-exports.cpuThreshold = 50; // Sends a notification to the user when cpu usage is over this %
-exports.spaceUsageThreshold = 50; // Sends a notification to the user when memory usage is over this %
-exports.memoryThreshold = 50; // Sends a notification to the user when memory usage is over this %
+exports.cpuThreshold = 90; // Sends a notification to the user when cpu usage is over this %
+exports.spaceUsageThreshold = 10; // Sends a notification to the user when total free disk space in under this %
+exports.memoryThreshold = 90; // Sends a notification to the user when memory usage is over this %
 
 exports.liskPWDFolder = "/home/lisk/lisk-main"; // the path of your lisk node
 
