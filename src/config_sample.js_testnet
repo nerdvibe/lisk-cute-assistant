@@ -18,19 +18,19 @@ exports.liskPWDFolder = "/home/lisk/lisk-test"; // the path of your lisk node
 
 exports.remoteNodes = [
   {
-    url: "https://testnet-wallet.lisknode.io/api/loader/status/sync",
+    url: "https://testnet-wallet.lisknode.io/api/node/status",
     name: "gr33ndragon-wallet"
   },
   {
-    url: "https://testnet-explorer.lisknode.io/api/loader/status/sync",
-    name: "gr33ndragon-BE"
+    url: "https://testnet.lisk.io/api/node/status",
+    name: "LiskHQ"
   },
   {
-    url: "https://testnet.lisk.io/api/loader/status/sync",
-    name: "lisk-Node"
+    url: "http://198.50.245.220:7000/api/node/status",
+    name: "Lisknode.net"
   },
   {
-    url: "https://testnet-explorer.lisk.io/api/loader/status/sync",
-    name: "lisk-BE"
+    url: "http://lisk99.mzpool.net:7000/api/node/status",
+    name: "Sexor"
   }
 ];

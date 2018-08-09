@@ -13,7 +13,7 @@ const getBlockHeight = async node => {
 
   if (!blockHeightData) return "0";
 
-  blockHeight = blockHeightData.data.height;
+  blockHeight = blockHeightData.data.data.height;
 
   return blockHeight;
 };
