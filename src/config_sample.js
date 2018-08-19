@@ -19,47 +19,47 @@ exports.liskPWDFolder = "/home/lisk/lisk-main"; // the path of your lisk node
 exports.remoteNodes = [
   //nodes to check for the block heights
   {
-    url: "https://liskwallet.punkrock.me/api/loader/status/sync",
+    url: "https://liskwallet.punkrock.me/api/node/status/sync",
     name: "punkrock"
   },
   {
-    url: "https://node01.lisk.io/api/loader/status/sync",
+    url: "https://node01.lisk.io/api/node/status/sync",
     name: "lisk1"
   },
   {
-    url: "https://node02.lisk.io/api/loader/status/sync",
+    url: "https://node02.lisk.io/api/node/status/sync",
     name: "lisk2"
   },
   {
-    url: "https://node03.lisk.io/api/loader/status/sync",
+    url: "https://node03.lisk.io/api/node/status/sync",
     name: "lisk3"
   },
   {
-    url: "https://node04.lisk.io/api/loader/status/sync",
+    url: "https://node04.lisk.io/api/node/status/sync",
     name: "lisk4"
   },
   {
-    url: "https://node05.lisk.io/api/loader/status/sync",
+    url: "https://node05.lisk.io/api/node/status/sync",
     name: "lisk5"
   },
   {
-    url: "https://node06.lisk.io/api/loader/status/sync",
+    url: "https://node06.lisk.io/api/node/status/sync",
     name: "lisk6"
   },
   {
-    url: "https://node07.lisk.io/api/loader/status/sync",
+    url: "https://node07.lisk.io/api/node/status/sync",
     name: "lisk7"
   },
   {
-    url: "https://node08.lisk.io/api/loader/status/sync",
+    url: "https://node08.lisk.io/api/node/status/sync",
     name: "lisk8"
   },
   {
-    url: "https://login.lisk.asia/api/loader/status/sync",
+    url: "https://login.lisk.asia/api/node/status/sync",
     name: "liskAsia"
   },
   {
-    url: "https://wallet.lisknode.io/api/loader/status/sync",
+    url: "https://wallet.lisknode.io/api/node/status/sync",
     name: "liskNode"
   }
 ];
