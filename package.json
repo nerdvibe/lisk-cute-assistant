@@ -6,7 +6,7 @@
     "start": "node_modules/pm2/bin/pm2 start src/index.js",
     "stop": "node_modules/pm2/bin/pm2 stop src/index.js",
     "dev": "node src/index.js",
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "snyk test",
     "generate-password": "node generate_password.js"
   },
   "keywords": [
@@ -17,13 +17,16 @@
   "author": "carbonara",
   "license": "GPLv3",
   "dependencies": {
-    "awesome_starter": "^1.0.6",
-    "axios": "^0.17.1",
-    "node-cron": "^1.2.1",
-    "node-telegram-bot-api": "^0.30.0",
-    "pm2": "^2.9.1",
-    "qrcode-terminal": "^0.11.0",
-    "speakeasy": "^2.0.0",
-    "tail": "^1.2.3"
+    "awesome_starter": "1.0.6",
+    "axios": "0.17.1",
+    "node-cron": "1.2.1",
+    "qrcode-terminal": "0.11.0",
+    "node-telegram-bot-api": "0.30.0",
+    "pm2": "3.0.3",
+    "speakeasy": "2.0.0",
+    "tail": "1.2.3"
+  },
+  "devDependencies": {
+    "snyk": "1.91.0"
   }
 }
