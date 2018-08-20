@@ -1,7 +1,6 @@
-const { bot } = require("./telegram");
-const settings = require("../config");
+import { bot } from "./telegram";
 
-const cleanIntent = () => {
+export const cleanIntent = () => {
   return {
     //used for making the bot interactive when waiting for user input
     waitingPrompt: false,
@@ -9,7 +8,7 @@ const cleanIntent = () => {
   };
 };
 
-const setIntent = intent => {
+export const setIntent = intent => {
   return {
     //used for making the bot interactive when waiting for user input
     waitingPrompt: true,
@@ -17,12 +16,12 @@ const setIntent = intent => {
   };
 };
 
-const sendChunkedMessage = async message => {
+export const sendChunkedMessage = async message => {
   const throttler = chunk => {
     return new Promise(resolve => {
       if(chunk.length < 1)
         return resolve();
-      setTimeout(() => resolve(bot.sendMessage(settings.chatId, chunk)), 1500);
+      setTimeout(() => resolve(bot.reply(chunk)), 1500);
     });
   };
 
@@ -34,10 +33,6 @@ const sendChunkedMessage = async message => {
   } else if (!message || !message.length) {
     return;
   } else {
-    return await bot.sendMessage(settings.chatId, message);
+    return await bot.reply(message);
   }
 };
-
-exports.cleanIntent = cleanIntent;
-exports.setIntent = setIntent;
-exports.sendChunkedMessage = sendChunkedMessage;
