@@ -1,8 +1,8 @@
+const axios = require("axios");
+const settings = require("../config");
 const sendTextMagic = async (message) =>
 {
-  const axios = require("axios");
-  const settings = require("../config");
-  var postData = {
+  let postData = {
     'text': message,
     'phones': settings.textMagicData.phoneNumber
   };
@@ -14,13 +14,12 @@ const sendTextMagic = async (message) =>
     }
   };
 
-  axios.post('https://rest.textmagic.com/api/v2/messages', postData, axiosConfig)
-  .then((res) => {
-    console.log("RESPONSE RECEIVED: ", res);
-  })
+  const response = await axios.post('https://rest.textmagic.com/api/v2/messages', postData, axiosConfig)
   .catch((err) => {
     console.log("AXIOS ERROR: ", err);
   })
+
+  return response;
 };
 
 exports.sendTextMagic = sendTextMagic;

@@ -1,11 +1,8 @@
-var lastTextMagic = new Date(0);
-var lastTwilio = new Date(0);
 const awesome = require("awesome_starter");
 const axios = require("axios");
 const settings = require("../config");
 const { bot } = require("./telegram");
-const { sendTextMagic } = require("./textMagic");
-const { sendTwilio } = require("./twilio");
+const { sendSMS } = require("./sms/index");
 
 const getBlockHeight = async node => {
   const blockHeightData = await axios
@@ -36,27 +33,7 @@ const compareBlockHeightsCron = async () => {
 
   if (localBlockheight === "0")
   {
-    var currentTime = new Date();
-
-    if(settings.textMagicData.enabled)
-    {
-      var textMagicCompare = new Date(currentTime.getTime() + settings.textMagicData.minutesBetweenTexts*-60000);
-      if(textMagicCompare > lastTextMagic)
-      {
-        sendTextMagic('Did not manage to get local block height during routine check for ' + settings.nodeName);
-        lastTextMagic = currentTime;
-      }
-    }
-
-    if(settings.twilioData.enabled)
-    {
-      var twilioCompare = new Date(currentTime.getTime() + settings.twilioData.minutesBetweenTexts*-60000);
-      if(twilioCompare > lastTwilio)
-      {
-        sendTwilio('Did not manage to get local block height during routine check for ' + settings.nodeName);
-        lastTwilio = currentTime;
-      }
-    }
+    sendSMS('Did not manage to get local block height during routine check for ' + settings.nodeName);
 
     return bot.sendMessage(
       settings.chatId,
@@ -103,26 +80,7 @@ const compareBlockHeightsCron = async () => {
       "⚠️ Detected issue: The block heights are not matching with the rest of the network"
     );
 
-    var currentTime = new Date();
-    if(settings.textMagicData.enabled)
-    {
-      var textMagicCompare = new Date(currentTime.getTime() + settings.textMagicData.minutesBetweenTexts*-60000);
-      if(textMagicCompare > lastTextMagic)
-      {
-        sendTextMagic('Detected issue with ' + settings.nodeName + ', local block height is ' + localBlockheight);
-        lastTextMagic = currentTime;
-      }
-    }
-
-    if(settings.twilioData.enabled)
-    {
-      var twilioCompare = new Date(currentTime.getTime() + settings.twilioData.minutesBetweenTexts*-60000);
-      if(twilioCompare > lastTwilio)
-      {
-        sendTwilio('Detected issue with ' + settings.nodeName + ', local block height is ' + localBlockheight);
-        lastTwilio = currentTime;
-      }
-    }
+    sendSMS('Detected issue with ' + settings.nodeName + ', local block height is ' + localBlockheight);
   }
 };
 

@@ -1,8 +1,8 @@
+var request = require('request');
+const settings = require("../config");  
 const sendTwilio = async (message) =>
 {
-  var request = require('request');
-  const settings = require("../config");  
-  var dataString = 'From='+settings.twilioData.fromPhoneNumber+'&To='+settings.twilioData.toPhoneNumber+'&Body='+message;
+  const dataString = 'From='+settings.twilioData.fromPhoneNumber+'&To='+settings.twilioData.toPhoneNumber+'&Body='+message;
 
   var options = {
       url: 'https://api.twilio.com/2010-04-01/Accounts/'+settings.twilioData.username+'/Messages',

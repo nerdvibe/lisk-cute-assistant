@@ -8,13 +8,13 @@ exports.diffBlockHeight = 3; // The difference of block heights between your nod
 exports.minBlockHeightNodeMatch = -3; // The difference of block heights between your node and the others before triggering an alarm
 exports.rebootWelcome = true; // The reboot telegram message
 exports.nodeName = "My node"; // Used to identify which node is being referred to with SMS 
+exports.minutesBetweenTexts = 15;
 
 exports.textMagicData = {
   enabled:false,
   username:"",
   APIkey:"",
   phoneNumber:"",
-  minutesBetweenTexts:15,
   rebootWelcome:true
 };
 
@@ -24,7 +24,6 @@ exports.twilioData = {
   password:"",
   fromPhoneNumber:"",
   toPhoneNumber:"",
-  minutesBetweenTexts:15,
   rebootWelcome:true
 };
 
