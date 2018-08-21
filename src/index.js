@@ -13,6 +13,8 @@ const {
 } = require("./lib/logs");
 const { cleanIntent, setIntent, sendChunkedMessage } = require("./lib/utils");
 const { bot } = require("./lib/telegram");
+const { sendTextMagic } = require("./lib/textMagic");
+const { sendTwilio } = require("./lib/twilio");
 let promptIntent = {
   //used for making the bot interactive when waiting for user input
   waitingPrompt: false,
@@ -54,6 +56,14 @@ if (settings.chatId && settings.rebootWelcome) {
     );
     respondServerStatus();
   })();
+}
+
+if (settings.textMagicData.enabled && settings.textMagicData.rebootWelcome) {
+  sendTextMagic('Lisk Cute Assistant on ' + exports.nodeName + ' rebooted');
+}
+  
+if (settings.twilioData.enabled && settings.twilioData.rebootWelcome) {
+  sendTwilio('Lisk Cute Assistant on ' + exports.nodeName + ' rebooted');
 }
 
 //Menu
