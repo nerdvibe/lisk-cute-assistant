@@ -31,3 +31,6 @@ console.log(`
 
 initializeCrons();
 initializeMenu();
+welcome();
+
+sendSMSWelcome('Lisk Cute Assistant on ' + settings.nodeName + ' rebooted');

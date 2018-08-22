@@ -16,15 +16,6 @@ let promptIntent = {
 let followLogs = false;
 
 export const initializeMenu = () => {
-  // Welcome chat message
-  if (settings.chatId && settings.rebootWelcome) {
-    (async () => {
-      await bot.reply(
-        `🤖 Ahoy, I've just been rebooted. Here are some infos regarding the server...`
-      );
-      respondServerStatus();
-    })();
-  }
 
   //Menu
   bot.onText(
