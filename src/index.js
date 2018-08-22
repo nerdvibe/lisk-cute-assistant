@@ -57,7 +57,7 @@ if (settings.chatId && settings.rebootWelcome) {
   })();
 }
 
-sendSMSWelcome('Lisk Cute Assistant on ' + exports.nodeName + ' rebooted');
+sendSMSWelcome('Lisk Cute Assistant on ' + settings.nodeName + ' rebooted');
 
 //Menu
 bot.onText(/(\/s|\/start|hey|hi|help|hello|yo|menu|menú|cancel|back)/i, msg => {

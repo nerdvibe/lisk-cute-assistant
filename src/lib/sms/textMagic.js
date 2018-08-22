@@ -1,5 +1,5 @@
 const axios = require("axios");
-const settings = require("../config");
+const settings = require("../../config");
 const sendTextMagic = async (message) =>
 {
   let postData = {

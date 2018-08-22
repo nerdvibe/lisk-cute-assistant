@@ -1,5 +1,5 @@
 var request = require('request');
-const settings = require("../config");  
+const settings = require("../../config");  
 const sendTwilio = async (message) =>
 {
   const dataString = 'From='+settings.twilioData.fromPhoneNumber+'&To='+settings.twilioData.toPhoneNumber+'&Body='+message;
