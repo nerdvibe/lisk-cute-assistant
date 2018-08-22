@@ -1,3 +1,4 @@
+const settings = require("../../config");  
 const { sendTextMagic } = require("./textMagic");
 const { sendTwilio } = require("./twilio");
 let lastSMS = new Date(0);
