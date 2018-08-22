@@ -2,6 +2,7 @@ const awesome = require("awesome_starter");
 const axios = require("axios");
 const settings = require("../config");
 const { bot } = require("./telegram");
+const { sendSMS } = require("./sms/index");
 
 const getBlockHeight = async node => {
   const blockHeightData = await axios
@@ -31,10 +32,14 @@ const compareBlockHeightsCron = async () => {
   let matchingBlockHeights = 0;
 
   if (localBlockheight === "0")
+  {
+    sendSMS('Did not manage to get local block height during routine check for ' + settings.nodeName);
+
     return bot.sendMessage(
       settings.chatId,
       "I didn't manage to get the local block height during the routine check!"
     );
+  }
 
   for (let node of settings.remoteNodes) {
     let remoteNode = Object.assign({}, node);
@@ -74,6 +79,8 @@ const compareBlockHeightsCron = async () => {
       settings.chatId,
       "⚠️ Detected issue: The block heights are not matching with the rest of the network"
     );
+
+    sendSMS('Detected issue with ' + settings.nodeName + ', local block height is ' + localBlockheight);
   }
 };
 

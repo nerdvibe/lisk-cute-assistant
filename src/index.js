@@ -13,6 +13,7 @@ const {
 } = require("./lib/logs");
 const { cleanIntent, setIntent, sendChunkedMessage } = require("./lib/utils");
 const { bot } = require("./lib/telegram");
+const { sendSMSWelcome } = require("./lib/sms/index");
 let promptIntent = {
   //used for making the bot interactive when waiting for user input
   waitingPrompt: false,
@@ -55,6 +56,8 @@ if (settings.chatId && settings.rebootWelcome) {
     respondServerStatus();
   })();
 }
+
+sendSMSWelcome('Lisk Cute Assistant on ' + settings.nodeName + ' rebooted');
 
 //Menu
 bot.onText(/(\/s|\/start|hey|hi|help|hello|yo|menu|menú|cancel|back)/i, msg => {
