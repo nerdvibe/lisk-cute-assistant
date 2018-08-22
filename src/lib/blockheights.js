@@ -1,10 +1,10 @@
-const awesome = require("awesome_starter");
-const axios = require("axios");
-const settings = require("../config");
-const { bot } = require("./telegram");
+import awesome from "awesome_starter";
+import axios from "axios";
+import settings from "../config";
+import { bot } from "./telegram";
 const { sendSMS } = require("./sms/index");
 
-const getBlockHeight = async node => {
+export const getBlockHeight = async node => {
   const blockHeightData = await axios
     .get(node)
     .catch(() =>
@@ -21,7 +21,7 @@ const getBlockHeight = async node => {
 
 //used for the cronjob
 //TODO: Fix potential duplicated code with respondBlockHeights()
-const compareBlockHeightsCron = async () => {
+export const compareBlockHeightsCron = async () => {
   const localBlockheight = await getBlockHeight(
     settings.localNodeURL
   ).catch(() =>
@@ -35,8 +35,7 @@ const compareBlockHeightsCron = async () => {
   {
     sendSMS('Did not manage to get local block height during routine check for ' + settings.nodeName);
 
-    return bot.sendMessage(
-      settings.chatId,
+    return bot.reply(
       "I didn't manage to get the local block height during the routine check!"
     );
   }
@@ -57,26 +56,23 @@ const compareBlockHeightsCron = async () => {
   }
 
   // checking if the local block height is matching with the majority of the others
-  let zero = matchingBlockHeights - settings.remoteNodes.length;
+  const zero = matchingBlockHeights - settings.remoteNodes.length;
   sameBlockHeights = zero >= settings.minBlockHeightNodeMatch;
   
   if (!sameBlockHeights) {
     console.fail(
       "Detected issue: The block heights are not matching with the rest of the network"
     );
-    await bot.sendMessage(
-      settings.chatId,
+    await bot.reply(
       `⚠️ Detected issue while executing the routine check`,
       { parse_mode: "HTML" }
     );
-    await bot.sendMessage(
-      settings.chatId,
+    await bot.reply(
       `<b>Local block height</b> is: ${localBlockheight}`,
       { parse_mode: "HTML" }
     );
-    await bot.sendMessage(settings.chatId, otherBlockMessage, { parse_mode: "HTML" });
-    await bot.sendMessage(
-      settings.chatId,
+    await bot.reply(otherBlockMessage, { parse_mode: "HTML" });
+    await bot.reply(
       "⚠️ Detected issue: The block heights are not matching with the rest of the network"
     );
 
@@ -85,7 +81,7 @@ const compareBlockHeightsCron = async () => {
 };
 
 // Used for replying to user message
-const respondBlockHeights = async () => {
+export const respondBlockHeights = async () => {
   const localBlockheight = await getBlockHeight(
     settings.localNodeURL
   ).catch(() =>
@@ -96,19 +92,17 @@ const respondBlockHeights = async () => {
   let matchingBlockHeights = 0;
 
   if (localBlockheight === "0")
-    return bot.sendMessage(
-      settings.chatId,
+    return bot.reply(
       "Error getting the local block height"
     );
 
   console.log("Local block height is: ", localBlockheight);
-  bot.sendMessage(
-    settings.chatId,
+  bot.reply(
     `<b>Local block height</b> is: ${localBlockheight}`,
     { parse_mode: "HTML" }
   );
 
-  await bot.sendMessage(settings.chatId, `Parsing remote nodes ✨🔎`);
+  await bot.reply(`Parsing remote nodes ✨🔎`);
 
   for (let node of settings.remoteNodes) {
     let remoteNode = Object.assign({}, node);
@@ -126,7 +120,7 @@ const respondBlockHeights = async () => {
   }
 
   //publishing summary other block heights
-  await bot.sendMessage(settings.chatId, otherBlockMessage, {
+  await bot.reply(otherBlockMessage, {
     parse_mode: "HTML"
   });
 
@@ -137,21 +131,15 @@ const respondBlockHeights = async () => {
 
   if (sameBlockHeights) {
     console.success("Your node seems to have the correct height");
-    bot.sendMessage(
-      settings.chatId,
+    bot.reply(
       "👌 Your node seems to have the correct height"
     );
   } else {
     console.fail(
       "The block heights are not matching with the rest of the network"
     );
-    bot.sendMessage(
-      settings.chatId,
+    bot.reply(
       "😡 The block heights are not matching with the rest of the network"
     );
   }
 };
-
-exports.getBlockHeight = getBlockHeight;
-exports.compareBlockHeightsCron = compareBlockHeightsCron;
-exports.respondBlockHeights = respondBlockHeights;

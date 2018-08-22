@@ -1,30 +1,24 @@
-const settings = require("../config");
-const consts = require("../consts");
-const { bot } = require("./telegram");
-const exec = require("child_process").exec;
+import settings from "../config";
+import { bot } from "./telegram";
+import { exec } from "child_process";
 
-// Todo: test in testnet before release!
-const startRebuild = async (snapshotServerURL) => {
+export const startRebuild = async (snapshotServerURL) => {
   const serverStatusExec = `
     cd ${settings.liskPWDFolder} && bash lisk.sh rebuild -u ${snapshotServerURL}`;
 
-  bot.sendMessage(settings.chatId, "🕑 This will take a while...");
+  bot.reply("🕑 This will take a while...");
 
-  exec(serverStatusExec, function(err, stdout, stderr) {
+  exec(serverStatusExec, (err, stdout, stderr) => {
     if (err || stderr) {
-      bot.sendMessage(
-        settings.chatId,
+      bot.reply(
         `Omg! I didn't manage to rebuild from gr33ndragon: \n${stderr}`
       );
       if (stdout)
-        bot.sendMessage(
-          settings.chatId,
+        bot.reply(
           `This is what I got anyway (stdout): \n${stdout}`
         );
       return;
     }
-    bot.sendMessage(settings.chatId, stdout);
+    bot.reply(stdout);
   });
 };
-
-exports.startRebuild = startRebuild;
