@@ -31,9 +31,11 @@ export const compareBlockHeightsCron = async () => {
   let sameBlockHeights;
   let matchingBlockHeights = 0;
 
-  if (localBlockheight === "0")
-  {
-    sendSMS('Did not manage to get local block height during routine check for ' + settings.nodeName);
+  if (localBlockheight === "0") {
+    sendSMS(
+      "Did not manage to get local block height during routine check for " +
+        settings.nodeName
+    );
 
     return bot.reply(
       "I didn't manage to get the local block height during the routine check!"
@@ -58,25 +60,28 @@ export const compareBlockHeightsCron = async () => {
   // checking if the local block height is matching with the majority of the others
   const zero = matchingBlockHeights - settings.remoteNodes.length;
   sameBlockHeights = zero >= settings.minBlockHeightNodeMatch;
-  
+
   if (!sameBlockHeights) {
     console.fail(
       "Detected issue: The block heights are not matching with the rest of the network"
     );
-    await bot.reply(
-      `⚠️ Detected issue while executing the routine check`,
-      { parse_mode: "HTML" }
-    );
-    await bot.reply(
-      `<b>Local block height</b> is: ${localBlockheight}`,
-      { parse_mode: "HTML" }
-    );
+    await bot.reply(`⚠️ Detected issue while executing the routine check`, {
+      parse_mode: "HTML"
+    });
+    await bot.reply(`<b>Local block height</b> is: ${localBlockheight}`, {
+      parse_mode: "HTML"
+    });
     await bot.reply(otherBlockMessage, { parse_mode: "HTML" });
     await bot.reply(
       "⚠️ Detected issue: The block heights are not matching with the rest of the network"
     );
 
-    sendSMS('Detected issue with ' + settings.nodeName + ', local block height is ' + localBlockheight);
+    sendSMS(
+      "Detected issue with " +
+        settings.nodeName +
+        ", local block height is " +
+        localBlockheight
+    );
   }
 };
 
@@ -92,15 +97,12 @@ export const respondBlockHeights = async () => {
   let matchingBlockHeights = 0;
 
   if (localBlockheight === "0")
-    return bot.reply(
-      "Error getting the local block height"
-    );
+    return bot.reply("Error getting the local block height");
 
   console.log("Local block height is: ", localBlockheight);
-  bot.reply(
-    `<b>Local block height</b> is: ${localBlockheight}`,
-    { parse_mode: "HTML" }
-  );
+  bot.reply(`<b>Local block height</b> is: ${localBlockheight}`, {
+    parse_mode: "HTML"
+  });
 
   await bot.reply(`Parsing remote nodes ✨🔎`);
 
@@ -128,12 +130,9 @@ export const respondBlockHeights = async () => {
   let zero = matchingBlockHeights - settings.remoteNodes.length;
   sameBlockHeights = zero >= settings.minBlockHeightNodeMatch;
 
-
   if (sameBlockHeights) {
     console.success("Your node seems to have the correct height");
-    bot.reply(
-      "👌 Your node seems to have the correct height"
-    );
+    bot.reply("👌 Your node seems to have the correct height");
   } else {
     console.fail(
       "The block heights are not matching with the rest of the network"
