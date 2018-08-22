@@ -2,12 +2,12 @@ const axios = require("axios");
 const settings = require("../../config");
 const sendTextMagic = async (message) =>
 {
-  let postData = {
+  const postData = {
     'text': message,
     'phones': settings.textMagicData.phoneNumber
   };
 
-  let axiosConfig = {
+  const axiosConfig = {
     headers: {
         'X-TM-Username': settings.textMagicData.username,
         'X-TM-Key': settings.textMagicData.APIkey
