@@ -16,7 +16,6 @@ let promptIntent = {
 let followLogs = false;
 
 export const initializeMenu = () => {
-
   //Menu
   bot.onText(
     /(\/s|\/start|hey|hi|help|hello|yo|menu|menú|cancel|back)/i,
@@ -55,7 +54,7 @@ export const initializeMenu = () => {
   });
 
   // test OTP
-  bot.onText(/\/test (.+)/, async(msg, match) => {
+  bot.onText(/\/test (.+)/, async (msg, match) => {
     promptIntent = cleanIntent();
     await testAuthenticationOTP(match[1].toString());
   });
@@ -71,14 +70,11 @@ export const initializeMenu = () => {
     promptIntent = cleanIntent();
     followLogs = toggleTailing();
     if (!followLogs)
-      bot.reply(
-        `👌 Okay stopping the logs tailing!`,
-        consts.menu
-      );
+      bot.reply(`👌 Okay stopping the logs tailing!`, consts.menu);
   });
 
   // return grep logs
-  bot.onText(/(cause|Logs) (.+)/i, async(msg, match) => {
+  bot.onText(/(cause|Logs) (.+)/i, async (msg, match) => {
     promptIntent = cleanIntent();
     await respondGREPLogs(match[2].toString());
   });
@@ -104,17 +100,14 @@ export const initializeMenu = () => {
     promptIntent = setIntent(
       consts.intents.ASK_PASSWORD_REBUILD_GREENDRAGON_MAIN
     );
-    return bot.reply(
-      `🔐 Please provide the password to rebuild..`,
-      {
-        reply_markup: {
-          keyboard: [["❌ Cancel"]]
-        }
+    return bot.reply(`🔐 Please provide the password to rebuild..`, {
+      reply_markup: {
+        keyboard: [["❌ Cancel"]]
       }
-    );
+    });
   });
 
-  bot.on("message", async (msg) => {
+  bot.on("message", async msg => {
     // inspects every message and looks if we are awaiting a reply from the user (prompting)
 
     if (!promptIntent.waitingPrompt) {
@@ -153,7 +146,7 @@ export const initializeMenu = () => {
     }
   });
 
-  bot.onText(/.+/, async(msg) => {
+  bot.onText(/.+/, async msg => {
     // Default message in case we didn't get the request
     if (!promptIntent.waitingPrompt)
       await bot.sendMessage(

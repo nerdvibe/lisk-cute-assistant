@@ -2,11 +2,7 @@ import awesome from "awesome_starter";
 import cron from "node-cron";
 import { compareBlockHeightsCron } from "./blockheights";
 import { checkServerStatusCron } from "./server";
-import {
-  executeBlockHeightsCron,
-  executeServerStatusCron
-} from "../config";
-
+import { executeBlockHeightsCron, executeServerStatusCron } from "../config";
 
 export const initializeCrons = () => {
   cron.schedule("* * * * *", () => {
@@ -27,5 +23,5 @@ export const initializeCrons = () => {
     );
   });
 
-  console.log('Cronjobs initialized');
+  console.log("Cronjobs initialized");
 };

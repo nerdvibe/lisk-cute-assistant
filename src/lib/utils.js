@@ -19,8 +19,7 @@ export const setIntent = intent => {
 export const sendChunkedMessage = async message => {
   const throttler = chunk => {
     return new Promise(resolve => {
-      if(chunk.length < 1)
-        return resolve();
+      if (chunk.length < 1) return resolve();
       setTimeout(() => resolve(bot.reply(chunk)), 1500);
     });
   };
