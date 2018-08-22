@@ -4,9 +4,9 @@ const { sendTwilio } = require("./twilio");
 let lastSMS = new Date(0);
 
 const sendSMS = (message) => {
-    let currentTime = new Date();
+    const currentTime = new Date();
 
-    let smsCompare = new Date(currentTime.getTime() + settings.minutesBetweenTexts*-60000);
+    const smsCompare = new Date(currentTime.getTime() + settings.minutesBetweenTexts*-60000);
     if(smsCompare > lastSMS)
     {
         if(settings.textMagicData.enabled)
