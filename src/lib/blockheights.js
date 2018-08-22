@@ -51,7 +51,7 @@ export const compareBlockHeightsCron = async () => {
   }
 
   // checking if the local block height is matching with the majority of the others
-  let zero = matchingBlockHeights - settings.remoteNodes.length;
+  const zero = matchingBlockHeights - settings.remoteNodes.length;
   sameBlockHeights = zero >= settings.minBlockHeightNodeMatch;
   
   if (!sameBlockHeights) {
