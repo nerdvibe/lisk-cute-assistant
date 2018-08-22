@@ -1,6 +1,6 @@
-const settings = require("../../config");
-const { sendTextMagic } = require("./textMagic");
-const { sendTwilio } = require("./twilio");
+import settings from "../../config";
+import { sendTextMagic } from "./textMagic";
+import { sendTwilio } from "./twilio";
 let lastSMS = new Date(0);
 
 const sendSMS = message => {

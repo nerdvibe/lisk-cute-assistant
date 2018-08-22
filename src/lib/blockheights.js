@@ -2,7 +2,7 @@ import awesome from "awesome_starter";
 import axios from "axios";
 import settings from "../config";
 import { bot } from "./telegram";
-const { sendSMS } = require("./sms/index");
+import { sendSMS } from "./sms/index";
 
 export const getBlockHeight = async node => {
   const blockHeightData = await axios
