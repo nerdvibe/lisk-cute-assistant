@@ -17,7 +17,7 @@ const sendTextMagic = async (message) =>
   const response = await axios.post('https://rest.textmagic.com/api/v2/messages', postData, axiosConfig)
   .catch((err) => {
     console.log("AXIOS ERROR: ", err);
-  })
+  });
 
   return response;
 };
