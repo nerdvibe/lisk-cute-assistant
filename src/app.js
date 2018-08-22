@@ -1,6 +1,6 @@
 import settings from "./config";
 import { initializeCrons } from "./lib/cron";
-import { initializeMenu } from './lib/menu'
+import { initializeMenu } from "./lib/menu";
 
 console.log(`
 
@@ -28,9 +28,8 @@ console.log(`
 
  `);
 
-
 initializeCrons();
 initializeMenu();
 welcome();
 
-sendSMSWelcome('Lisk Cute Assistant on ' + settings.nodeName + ' rebooted');
+sendSMSWelcome("Lisk Cute Assistant on " + settings.nodeName + " rebooted");

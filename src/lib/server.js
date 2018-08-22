@@ -23,10 +23,7 @@ export const respondServerStatus = async () => {
       bot.reply(
         `Omg! I didn't manage to correctly check the server status: \n${stderr}`
       );
-      if (stdout)
-        bot.reply(
-          `This is what I got anyway (stdout): \n${stdout}`
-        );
+      if (stdout) bot.reply(`This is what I got anyway (stdout): \n${stdout}`);
       return;
     }
     bot.reply(stdout);
@@ -49,17 +46,12 @@ export const checkServerStatusCron = async () => {
       bot.reply(
         `Omg! I didn't manage to correctly check the cpu status: \n${stderr}`
       );
-      if (stdout)
-        bot.reply(
-          `This is what I got anyway (stdout): \n${stdout}`
-        );
+      if (stdout) bot.reply(`This is what I got anyway (stdout): \n${stdout}`);
       return;
     }
     const stdoutValue = parseInt(stdout);
     if (stdoutValue > settings.cpuThreshold)
-      bot.reply(
-        `⚠️ CPU usage % over the threshold! ${stdout}`
-      );
+      bot.reply(`⚠️ CPU usage % over the threshold! ${stdout}`);
   });
 
   exec(spaceUsageExec, (err, stdout, stderr) => {
@@ -67,17 +59,12 @@ export const checkServerStatusCron = async () => {
       bot.reply(
         `Omg! I didn't manage to correctly check the space usage: \n${stderr}`
       );
-      if (stdout)
-        bot.reply(
-          `This is what I got anyway (stdout): \n${stdout}`
-        );
+      if (stdout) bot.reply(`This is what I got anyway (stdout): \n${stdout}`);
       return;
     }
     const stdoutValue = parseInt(stdout);
     if (stdoutValue > settings.spaceUsageThreshold)
-      bot.reply(
-        `⚠️ RAM usage % over the threshold! ${stdout}`
-      );
+      bot.reply(`⚠️ RAM usage % over the threshold! ${stdout}`);
   });
 
   exec(memoryExec, (err, stdout, stderr) => {
@@ -85,16 +72,11 @@ export const checkServerStatusCron = async () => {
       bot.reply(
         `Omg! I didn't manage to correctly check the memory usage: \n${stderr}`
       );
-      if (stdout)
-        bot.reply(
-          `This is what I got anyway (stdout): \n${stdout}`
-        );
+      if (stdout) bot.reply(`This is what I got anyway (stdout): \n${stdout}`);
       return;
     }
     const stdoutValue = parseInt(stdout);
     if (stdoutValue > settings.memoryThreshold)
-      bot.reply(
-        `⚠️ Space usage % over the threshold! ${stdout}`
-      );
+      bot.reply(`⚠️ Space usage % over the threshold! ${stdout}`);
   });
 };

@@ -12,23 +12,19 @@ let logsBatch = []; //used to batching logs when tailing
 // Initializing the tailing
 try {
   tail = new Tail(settings.liskPWDFolder + "/logs/lisk.log");
-  tail.on("line", (data) => {
+  tail.on("line", data => {
     if (followLogs) {
       logsBatch.push(data);
     }
   });
 
-  tail.on("error", (error) => {
-    bot.reply(
-      `DAMN! Error in reading the logs... ${error}`
-    );
+  tail.on("error", error => {
+    bot.reply(`DAMN! Error in reading the logs... ${error}`);
     tail.unwatch();
     logsBatch = [];
   });
 } catch (error) {
-  bot.reply(
-    `DAMN! Error in reading the logs... ${error}`
-  );
+  bot.reply(`DAMN! Error in reading the logs... ${error}`);
 }
 
 // Toggler for tailing logs
@@ -42,9 +38,7 @@ export const toggleTailing = () => {
         logsBatch = [];
       }, 1000);
     } catch (e) {
-      bot.reply(
-        "tailing not enabled. Probably logs file not found"
-      );
+      bot.reply("tailing not enabled. Probably logs file not found");
     }
   } else {
     try {
@@ -52,9 +46,7 @@ export const toggleTailing = () => {
       followLogs = !followLogs;
       clearInterval(batchSender);
     } catch (e) {
-      bot.reply(
-        "tailing not enabled. Probably logs file not found"
-      );
+      bot.reply("tailing not enabled. Probably logs file not found");
     }
   }
   if (followLogs)
@@ -74,13 +66,8 @@ export const respondRecentLogs = async () => {
   exec(recentLogsExec, (err, stdout, stderr) => {
     console.log(err);
     if (err || stderr) {
-      bot.reply(
-        `Omg! I didn't manage to get the logs: \n${stderr}`
-      );
-      if (stdout)
-        bot.reply(
-          `This is what I got anyway (stdout): \n${stdout}`
-        );
+      bot.reply(`Omg! I didn't manage to get the logs: \n${stderr}`);
+      if (stdout) bot.reply(`This is what I got anyway (stdout): \n${stdout}`);
       return;
     }
     bot.reply("📄 Here are the logs:");
@@ -139,7 +126,6 @@ export const execGREPLogs = async type => {
       type
     )}'`;
 
-
   if (type === consts.logsGREP.CONSENSUS)
     forkLogsExec = `cd ${settings.liskPWDFolder}/logs/ && tail lisk.log -n 1000 | grep "consensus"`;
 
@@ -150,17 +136,11 @@ export const execGREPLogs = async type => {
     forkLogsExec = `cd ${settings.liskPWDFolder}/logs/ && tail lisk.log -n 100000 | grep "SIGABRT"`;
 
   exec(forkLogsExec, async (err, stdout, stderr) => {
-    if ((err || stderr) && (err.killed)) {
-      bot.reply(
-        `Omg! I didn't manage to get the logs: \n${stderr}`
-      );
-      if (stdout)
-        bot.reply(
-          `This is what I got anyway (stdout): \n${stdout}`
-        );
+    if ((err || stderr) && err.killed) {
+      bot.reply(`Omg! I didn't manage to get the logs: \n${stderr}`);
+      if (stdout) bot.reply(`This is what I got anyway (stdout): \n${stdout}`);
       return;
-    }
-    else if(err && !err.killed)
+    } else if (err && !err.killed)
       return bot.reply(
         `No logs found with that query in the last lines of logs...`
       );
