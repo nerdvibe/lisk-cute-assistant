@@ -1,29 +1,30 @@
-const request = require('request');
-const settings = require("../../config");  
+const querystring = require("querystring");
+const axios = require("axios");
+const settings = require("../../config");
 const sendTwilio = async (message) =>
 {
-  const dataString = 'From='+settings.twilioData.fromPhoneNumber+'&To='+settings.twilioData.toPhoneNumber+'&Body='+message;
-
-  const options = {
-      url: 'https://api.twilio.com/2010-04-01/Accounts/'+settings.twilioData.username+'/Messages',
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'
-      },
-      body: dataString,
-      auth: {
-          'user': settings.twilioData.username,
-          'pass': settings.twilioData.password
-      }
+  const postData = {
+    'Body': message,
+    'To': settings.twilioData.toPhoneNumber,
+    'From': settings.twilioData.fromPhoneNumber
   };
 
-  function callback(error, response, body) {
-      if (!error && response.statusCode == 200) {
-          console.log(body);
-      }
-  }
+  const axiosConfig = {
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded'
+    },
+    auth: {
+      username: settings.twilioData.username,
+      password: settings.twilioData.password
+    }
+  };
 
-  request(options, callback);
+  const response = await axios.post('https://api.twilio.com/2010-04-01/Accounts/' + settings.twilioData.username + '/Messages', querystring.stringify(postData), axiosConfig)
+  .catch((err) => {
+    console.log("AXIOS ERROR: ", err);
+  })
+
+  return response;
 }
 
 exports.sendTwilio = sendTwilio;
