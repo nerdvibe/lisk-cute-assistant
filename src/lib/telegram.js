@@ -1,10 +1,9 @@
-process.env["NTBA_FIX_319"] = 1;
+import settings from "../config";
+import TelegramBot from "node-telegram-bot-api";
 
-const settings = require("../config");
-const TelegramBot = require("node-telegram-bot-api");
-const bot = new TelegramBot(settings.telegramAPIToken, {
+export const bot = new TelegramBot(settings.telegramAPIToken, {
   polling: true,
   onlyFirstMatch: true
 });
 
-exports.bot = bot;
+bot.reply = (...args) => bot.sendMessage(settings.chatId, ...args);

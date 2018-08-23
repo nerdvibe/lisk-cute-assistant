@@ -1,39 +1,34 @@
-const settings = require("../config");
-const consts = require("../consts");
-const { bot } = require("./telegram");
-const { sendChunkedMessage } = require("./utils");
-const exec = require("child_process").exec;
+import settings from "../config";
+import consts from "../consts";
+import { bot } from "./telegram";
+import { sendChunkedMessage } from "./utils";
+import { exec } from "child_process";
+import { Tail } from "tail";
+
 let followLogs = false;
-const Tail = require("tail").Tail;
 let tail, batchSender;
 let logsBatch = []; //used to batching logs when tailing
 
 // Initializing the tailing
 try {
-  tail = new Tail(settings.liskPWDFolder + "/logs/lisk.log"); // logs/lisk.log
-  tail.on("line", function(data) {
+  tail = new Tail(settings.liskPWDFolder + "/logs/lisk.log");
+  tail.on("line", data => {
     if (followLogs) {
       logsBatch.push(data);
     }
   });
 
-  tail.on("error", function(error) {
-    bot.sendMessage(
-      settings.chatId,
-      `DAMN! Error in reading the logs... ${error}`
-    );
+  tail.on("error", error => {
+    bot.reply(`DAMN! Error in reading the logs... ${error}`);
     tail.unwatch();
     logsBatch = [];
   });
 } catch (error) {
-  bot.sendMessage(
-    settings.chatId,
-    `DAMN! Error in reading the logs... ${error}`
-  );
+  bot.reply(`DAMN! Error in reading the logs... ${error}`);
 }
 
 // Toggler for tailing logs
-const toggleTailing = () => {
+export const toggleTailing = () => {
   if (!followLogs) {
     try {
       tail.watch();
@@ -43,10 +38,7 @@ const toggleTailing = () => {
         logsBatch = [];
       }, 1000);
     } catch (e) {
-      bot.sendMessage(
-        settings.chatId,
-        "tailing not enabled. Probably logs file not found"
-      );
+      bot.reply("tailing not enabled. Probably logs file not found");
     }
   } else {
     try {
@@ -54,14 +46,11 @@ const toggleTailing = () => {
       followLogs = !followLogs;
       clearInterval(batchSender);
     } catch (e) {
-      bot.sendMessage(
-        settings.chatId,
-        "tailing not enabled. Probably logs file not found"
-      );
+      bot.reply("tailing not enabled. Probably logs file not found");
     }
   }
   if (followLogs)
-    return bot.sendMessage(settings.chatId, `Ok I'll tail the logs file...`, {
+    return bot.reply(`Ok I'll tail the logs file...`, {
       reply_markup: {
         keyboard: [["❌ Stop Following logs"], ["🏠 Menu"]]
       }
@@ -69,33 +58,24 @@ const toggleTailing = () => {
   return followLogs;
 };
 
-// Todo: test in testnet before release!
-const respondRecentLogs = async () => {
+export const respondRecentLogs = async () => {
   const recentLogsExec = `
     cd ${settings.liskPWDFolder}/logs/ && tail lisk.log -n 2000
   `;
 
-  exec(recentLogsExec, function(err, stdout, stderr) {
+  exec(recentLogsExec, (err, stdout, stderr) => {
     console.log(err);
     if (err || stderr) {
-      bot.sendMessage(
-        settings.chatId,
-        `Omg! I didn't manage to get the logs: \n${stderr}`
-      );
-      if (stdout)
-        bot.sendMessage(
-          settings.chatId,
-          `This is what I got anyway (stdout): \n${stdout}`
-        );
+      bot.reply(`Omg! I didn't manage to get the logs: \n${stderr}`);
+      if (stdout) bot.reply(`This is what I got anyway (stdout): \n${stdout}`);
       return;
     }
-    bot.sendMessage(settings.chatId, "📄 Here are the logs:");
+    bot.reply("📄 Here are the logs:");
     sendChunkedMessage(stdout);
   });
 };
 
-// Todo: test in testnet before release!
-const respondGREPLogs = async type => {
+export const respondGREPLogs = async type => {
   switch (type) {
     case "All Forks":
       execGREPLogs(consts.logsGREP.ALL);
@@ -129,8 +109,7 @@ const respondGREPLogs = async type => {
   }
 };
 
-// Todo: test in testnet before release!
-const execGREPLogs = async type => {
+export const execGREPLogs = async type => {
   let forkLogsExec;
 
   if (type === consts.logsGREP.ALL)
@@ -147,7 +126,6 @@ const execGREPLogs = async type => {
       type
     )}'`;
 
-
   if (type === consts.logsGREP.CONSENSUS)
     forkLogsExec = `cd ${settings.liskPWDFolder}/logs/ && tail lisk.log -n 1000 | grep "consensus"`;
 
@@ -157,29 +135,16 @@ const execGREPLogs = async type => {
   if (type === consts.logsGREP.SIGABRT)
     forkLogsExec = `cd ${settings.liskPWDFolder}/logs/ && tail lisk.log -n 100000 | grep "SIGABRT"`;
 
-  exec(forkLogsExec, async function(err, stdout, stderr) {
-    if ((err || stderr) && (err.killed)) {
-      bot.sendMessage(
-        settings.chatId,
-        `Omg! I didn't manage to get the logs: \n${stderr}`
-      );
-      if (stdout)
-        bot.sendMessage(
-          settings.chatId,
-          `This is what I got anyway (stdout): \n${stdout}`
-        );
+  exec(forkLogsExec, async (err, stdout, stderr) => {
+    if ((err || stderr) && err.killed) {
+      bot.reply(`Omg! I didn't manage to get the logs: \n${stderr}`);
+      if (stdout) bot.reply(`This is what I got anyway (stdout): \n${stdout}`);
       return;
-    }
-    else if(err && !err.killed)
-      return bot.sendMessage(
-        settings.chatId,
+    } else if (err && !err.killed)
+      return bot.reply(
         `No logs found with that query in the last lines of logs...`
       );
-    await bot.sendMessage(settings.chatId, "📄 Here are the fork logs:");
+    await bot.reply("📄 Here are the fork logs:");
     sendChunkedMessage(stdout);
   });
 };
-
-exports.respondRecentLogs = respondRecentLogs;
-exports.toggleTailing = toggleTailing;
-exports.respondGREPLogs = respondGREPLogs;
