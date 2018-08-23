@@ -25,6 +25,6 @@ const sendTwilio = async (message) =>
   })
 
   return response;
-}
+};
 
 exports.sendTwilio = sendTwilio;
