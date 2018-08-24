@@ -1,7 +1,7 @@
 import settings from "./config";
 import { initializeCrons } from "./lib/cron";
 import { initializeMenu } from "./lib/menu";
-import {welcome} from "./lib/welcome";
+import { welcome } from "./lib/welcome";
 
 console.log(`
 
