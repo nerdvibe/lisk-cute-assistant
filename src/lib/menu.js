@@ -7,7 +7,7 @@ import { respondServerStatus } from "./server";
 import { respondBlockHeights } from "./blockheights";
 import { testAuthenticationOTP } from "./auth";
 import { respondRecentLogs, respondGREPLogs, toggleTailing } from "./logs";
-import { blockHeightCron } from './cron';
+import { blockHeightCron } from "./cron";
 
 let promptIntent = {
   //used for making the bot interactive when waiting for user input
@@ -134,7 +134,10 @@ export const initializeMenu = () => {
           `✅ You are authenticated! Now I'll start the rebuild, fasten your seat belts...`
         );
         blockHeightCron.stop();
-        startRebuild(consts.snapshot_servers.GREENDRAGON_MAIN, blockHeightCron.start);
+        startRebuild(
+          consts.snapshot_servers.GREENDRAGON_MAIN,
+          blockHeightCron.start
+        );
       } else {
         bot.reply(
           `I'm sorry, but that's not a valid password... Try again...`,
