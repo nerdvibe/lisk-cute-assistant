@@ -3,6 +3,7 @@ import axios from "axios";
 import settings from "../config";
 import { bot } from "./telegram";
 import { sendSMS } from "./sms/index";
+const API_ENDPOINT = '/api/node/status';
 
 export const getBlockHeight = async node => {
   const blockHeightData = await axios
@@ -23,7 +24,7 @@ export const getBlockHeight = async node => {
 //TODO: Fix potential duplicated code with respondBlockHeights()
 export const compareBlockHeightsCron = async () => {
   const localBlockheight = await getBlockHeight(
-    settings.localNodeURL
+    settings.localNodeURL + API_ENDPOINT
   ).catch(() =>
     awesome.errors.generalCatchCallback("", "get local block height")
   );
@@ -88,7 +89,7 @@ export const compareBlockHeightsCron = async () => {
 // Used for replying to user message
 export const respondBlockHeights = async () => {
   const localBlockheight = await getBlockHeight(
-    settings.localNodeURL
+    settings.localNodeURL + API_ENDPOINT
   ).catch(() =>
     awesome.errors.generalCatchCallback("", "get local block height")
   );

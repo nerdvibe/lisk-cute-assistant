@@ -1,6 +1,8 @@
 import settings from "../config";
 import { bot } from "./telegram";
 import { exec } from "child_process";
+import axios from "axios";
+
 
 export const startRebuild = async (snapshotServerURL, cb) => {
   const serverStatusExec = `
@@ -19,4 +21,8 @@ export const startRebuild = async (snapshotServerURL, cb) => {
     bot.reply(stdout);
     cb();
   });
+};
+
+export const toggleForging = async (enable = true) => {
+  return
 };

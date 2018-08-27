@@ -3,7 +3,7 @@
 exports.telegramAPIToken = ""; // Your telegram bot API key. Ask the @botfather for an api key
 exports.chatId = ""; // your telegram id. This will make sure that the msgs are sent only to you
 exports.OTPsecret = ""; // run "npm run generate-password" in order to get this setting
-exports.localNodeURL = "http://127.0.0.1:8000/api/node/status"; // If you want to use for testing "https://node04.lisk.io/api/node/status" or use your node in testnet, don't forget the port 7000
+exports.localNodeURL = "http://127.0.0.1:8000"; // If you want to use for testing "https://node04.lisk.io/api/node/status" or use your node in testnet, don't forget the port 7000
 exports.diffBlockHeight = 3; // The difference of block heights between your node and the others before triggering an alarm
 exports.minBlockHeightNodeMatch = -3; // The difference of block heights between your node and the others before triggering an alarm
 exports.rebootWelcome = true; // The reboot telegram message
