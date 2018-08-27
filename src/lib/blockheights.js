@@ -3,10 +3,11 @@ import axios from "axios";
 import settings from "../config";
 import { bot } from "./telegram";
 import { sendSMS } from "./sms/index";
+const BLOCKHEIGHT_ENDPOINT = `${settings.localNodeURL}/api/node/status`;
 
-export const getBlockHeight = async node => {
+export const getBlockHeight = async (url) => {
   const blockHeightData = await axios
-    .get(node)
+    .get(url ? url : BLOCKHEIGHT_ENDPOINT, {timeout: 5000})
     .catch(() =>
       awesome.errors.generalCatchCallback("", "get local block height")
     );
@@ -22,14 +23,10 @@ export const getBlockHeight = async node => {
 //used for the cronjob
 //TODO: Fix potential duplicated code with respondBlockHeights()
 export const compareBlockHeightsCron = async () => {
-  const localBlockheight = await getBlockHeight(
-    settings.localNodeURL
-  ).catch(() =>
+  const localBlockheight = await getBlockHeight().catch(() =>
     awesome.errors.generalCatchCallback("", "get local block height")
   );
-  let otherBlockMessage = "";
-  let sameBlockHeights;
-  let matchingBlockHeights = 0;
+  let isSameBlockHeights;
 
   if (localBlockheight === "0") {
     sendSMS(
@@ -42,26 +39,13 @@ export const compareBlockHeightsCron = async () => {
     );
   }
 
-  for (let node of settings.remoteNodes) {
-    let remoteNode = Object.assign({}, node);
-    remoteNode.blockHeight = await getBlockHeight(node.url).catch(() =>
-      awesome.errors.generalCatchCallback("", `get remote height ${node.name}`)
-    );
-
-    //compiling message
-    otherBlockMessage += `\n\n<b>${remoteNode.name}</b> : ${remoteNode.blockHeight}`;
-
-    //checking if my block height is in sync with this node
-    let zero = localBlockheight - remoteNode.blockHeight;
-    if (zero >= -settings.diffBlockHeight && zero <= settings.diffBlockHeight)
-      matchingBlockHeights++;
-  }
+  const remotesNodes = await parseRemoteBH();
 
   // checking if the local block height is matching with the majority of the others
-  const zero = matchingBlockHeights - settings.remoteNodes.length;
-  sameBlockHeights = zero >= settings.minBlockHeightNodeMatch;
+  const zero = remotesNodes.matchingBlockHeights - settings.remoteNodes.length;
+  isSameBlockHeights = zero >= settings.minBlockHeightNodeMatch;
 
-  if (!sameBlockHeights) {
+  if (!isSameBlockHeights) {
     console.fail(
       "Detected issue: The block heights are not matching with the rest of the network"
     );
@@ -71,7 +55,7 @@ export const compareBlockHeightsCron = async () => {
     await bot.reply(`<b>Local block height</b> is: ${localBlockheight}`, {
       parse_mode: "HTML"
     });
-    await bot.reply(otherBlockMessage, { parse_mode: "HTML" });
+    await bot.reply(remotesNodes.otherBlockMessage, { parse_mode: "HTML" });
     await bot.reply(
       "⚠️ Detected issue: The block heights are not matching with the rest of the network"
     );
@@ -87,50 +71,36 @@ export const compareBlockHeightsCron = async () => {
 
 // Used for replying to user message
 export const respondBlockHeights = async () => {
-  const localBlockheight = await getBlockHeight(
-    settings.localNodeURL
-  ).catch(() =>
+  const initialLocalBlockHeight = await getBlockHeight().catch(() =>
     awesome.errors.generalCatchCallback("", "get local block height")
   );
-  let otherBlockMessage = "";
-  let sameBlockHeights;
-  let matchingBlockHeights = 0;
+  let isSameBlockHeights;
 
-  if (localBlockheight === "0")
+  if (initialLocalBlockHeight === "0")
     return bot.reply("Error getting the local block height");
 
-  console.log("Local block height is: ", localBlockheight);
-  bot.reply(`<b>Local block height</b> is: ${localBlockheight}`, {
+  console.log("Local block height is: ", initialLocalBlockHeight);
+  bot.reply(`<b>Local block height</b> is: ${initialLocalBlockHeight}`, {
     parse_mode: "HTML"
   });
 
   await bot.reply(`Parsing remote nodes ✨🔎`);
 
-  for (let node of settings.remoteNodes) {
-    let remoteNode = Object.assign({}, node);
-    remoteNode.blockHeight = await getBlockHeight(node.url).catch(() =>
-      awesome.errors.generalCatchCallback("", `get remote height ${node.name}`)
-    );
-
-    //compiling message
-    otherBlockMessage += `\n\n<b>${remoteNode.name}</b> : ${remoteNode.blockHeight}`;
-
-    //checking if my block height is in sync with this node
-    let zero = localBlockheight - remoteNode.blockHeight;
-    if (zero >= -settings.diffBlockHeight && zero <= settings.diffBlockHeight)
-      matchingBlockHeights++;
-  }
+  const remotesNodes = await parseRemoteBH();
 
   //publishing summary other block heights
-  await bot.reply(otherBlockMessage, {
-    parse_mode: "HTML"
-  });
+  await bot.reply(
+    remotesNodes.remoteBHMessage,
+    {
+      parse_mode: "HTML"
+    }
+  );
 
   // checking if the local block height is matching with the majority of the others
-  let zero = matchingBlockHeights - settings.remoteNodes.length;
-  sameBlockHeights = zero >= settings.minBlockHeightNodeMatch;
+  let zero = remotesNodes.matchingBlockHeights - settings.remoteNodes.length;
+  isSameBlockHeights = zero >= settings.minBlockHeightNodeMatch;
 
-  if (sameBlockHeights) {
+  if (isSameBlockHeights) {
     console.success("Your node seems to have the correct height");
     bot.reply("👌 Your node seems to have the correct height");
   } else {
@@ -140,5 +110,36 @@ export const respondBlockHeights = async () => {
     bot.reply(
       "😡 The block heights are not matching with the rest of the network"
     );
+  }
+};
+
+// Returns a message for TG and how many matching blockheights are matching
+export const parseRemoteBH = async() => {
+  let remoteBHMessage = "";
+  let matchingBlockHeights = 0;
+
+  for (let node of settings.remoteNodes) {
+    let remoteNode = Object.assign({}, node);
+    remoteNode.blockHeight = await getBlockHeight(node.url).catch(() =>
+      awesome.errors.generalCatchCallback("", `get remote height ${node.name}`)
+    );
+
+    const localBlockHeightCheck = await getBlockHeight().catch(() =>
+      awesome.errors.generalCatchCallback("", "get local block height")
+    );
+
+    //compiling message
+    remoteBHMessage += `\n\n<b>${remoteNode.name}</b> : ${remoteNode.blockHeight} (L: ${localBlockHeightCheck})`;
+
+    //checking if my block height is in sync with this node
+    let zero = localBlockHeightCheck - remoteNode.blockHeight;
+    if (zero >= -settings.diffBlockHeight && zero <= settings.diffBlockHeight) {
+      matchingBlockHeights++;
+    }
+  }
+
+  return {
+    remoteBHMessage,
+    matchingBlockHeights
   }
 };

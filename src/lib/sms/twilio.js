@@ -1,7 +1,8 @@
 const querystring = require("querystring");
 const axios = require("axios");
 const settings = require("../../config");
-const sendTwilio = async message => {
+
+export const sendTwilio = async message => {
   const postData = {
     Body: message,
     To: settings.twilioData.toPhoneNumber,
@@ -32,5 +33,3 @@ const sendTwilio = async message => {
 
   return response;
 };
-
-exports.sendTwilio = sendTwilio;

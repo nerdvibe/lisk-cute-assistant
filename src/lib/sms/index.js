@@ -3,7 +3,7 @@ import { sendTextMagic } from "./textMagic";
 import { sendTwilio } from "./twilio";
 let lastSMS = new Date(0);
 
-const sendSMS = message => {
+export const sendSMS = message => {
   const currentTime = new Date();
 
   const smsCompare = new Date(
@@ -20,7 +20,7 @@ const sendSMS = message => {
   }
 };
 
-const sendSMSWelcome = message => {
+export const sendSMSWelcome = message => {
   if (settings.textMagicData.enabled && settings.textMagicData.rebootWelcome) {
     sendTextMagic(message);
   }
@@ -28,6 +28,3 @@ const sendSMSWelcome = message => {
     sendTwilio(message);
   }
 };
-
-exports.sendSMS = sendSMS;
-exports.sendSMSWelcome = sendSMSWelcome;

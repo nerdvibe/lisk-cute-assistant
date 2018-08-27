@@ -1,7 +1,7 @@
 import axios from "axios";
 import settings from "../../config";
 
-const sendTextMagic = async message => {
+export const sendTextMagic = async message => {
   const postData = {
     text: message,
     phones: settings.textMagicData.phoneNumber
@@ -22,5 +22,3 @@ const sendTextMagic = async message => {
 
   return response;
 };
-
-exports.sendTextMagic = sendTextMagic;
