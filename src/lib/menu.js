@@ -2,12 +2,13 @@ import settings from "../config";
 import consts from "../consts";
 import { bot } from "./telegram";
 import { cleanIntent, setIntent } from "./utils";
-import { startRebuild } from "./manageNode";
+import { startRebuild, returnForgingMenu, forgingStatus } from "./manageNode";
 import { respondServerStatus } from "./server";
 import { respondBlockHeights } from "./blockheights";
 import { testAuthenticationOTP } from "./auth";
 import { respondRecentLogs, respondGREPLogs, toggleTailing } from "./logs";
-import { blockHeightCron } from "./cron";
+import { returnSettingsMenu, toggleSettingsRegex, toggleSetting } from "./settings";
+import { nodeHealthCron } from "./cron";
 
 let promptIntent = {
   //used for making the bot interactive when waiting for user input
@@ -93,6 +94,27 @@ export const initializeMenu = () => {
     });
   });
 
+  bot.onText(/⚙️/i, async() => {
+    promptIntent = cleanIntent();
+    await returnSettingsMenu()
+  });
+
+
+  bot.onText(toggleSettingsRegex, async(msg) => {
+    promptIntent = cleanIntent();
+    await toggleSetting(msg.text);
+  });
+
+  bot.onText(/⛏ Forging️/i, async() => {
+    promptIntent = cleanIntent();
+    await returnForgingMenu()
+  });
+
+  bot.onText(/Check if node is set to forge️/i, async() => {
+    promptIntent = cleanIntent();
+    await forgingStatus();
+  });
+
   // Rebuild flow start
   bot.onText(/🔑 Rebuild from snapshot Gr33ndragon/, async () => {
     promptIntent = setIntent(
@@ -130,10 +152,10 @@ export const initializeMenu = () => {
         bot.reply(
           `✅ You are authenticated! Now I'll start the rebuild, fasten your seat belts...`
         );
-        blockHeightCron.stop();
+        nodeHealthCron.stop();
         startRebuild(
           consts.snapshot_servers.GREENDRAGON_MAIN,
-          blockHeightCron.start
+          nodeHealthCron.start
         );
       } else {
         bot.reply(
