@@ -29,7 +29,7 @@ export const forgingStatus = async () => {
   const isForging = isForging();
   bot.reply(
     isForging
-      ? "⛏ The server is set to forge"
+      ? "⛏ The node is set to forge"
       : "💤 The node is not set to forge"
   );
 };
