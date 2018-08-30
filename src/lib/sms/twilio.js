@@ -21,15 +21,15 @@ export const sendTwilio = async message => {
 
   const response = await axios
     .post(
-      "https://api.twilio.com/2010-04-01/Accounts/" +
-        settings.twilioData.username +
-        "/Messages",
+      `https://api.twilio.com/2010-04-01/Accounts/${settings.twilioData.username}/Messages`,
       querystring.stringify(postData),
       axiosConfig
     )
     .catch(err => {
-      console.log("AXIOS ERROR: ", err);
+      console.fail("AXIOS ERROR: ", err);
     });
+
+  console.success(`SMS sent via Twilio. Message: ${message}`);
 
   return response;
 };
