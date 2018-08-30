@@ -34,10 +34,7 @@ export const initializeMenu = () => {
           consts.menu
         );
       console.log(
-        "Client connected:",
-        msg.from.id,
-        msg.from.first_name,
-        "@" + msg.from.username
+        `Client connected: ${msg.from.id} ${msg.from.first_name} @${msg.from.username}`
       );
     }
   );

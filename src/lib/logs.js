@@ -11,7 +11,7 @@ let logsBatch = []; //used to batching logs when tailing
 
 // Initializing the tailing
 try {
-  tail = new Tail(settings.liskPWDFolder + "/logs/lisk.log");
+  tail = new Tail(`${settings.liskPWDFolder}/logs/lisk.log`);
   tail.on("line", data => {
     if (followLogs) {
       logsBatch.push(data);

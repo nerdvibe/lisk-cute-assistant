@@ -5,23 +5,9 @@ import { bot } from "./telegram";
 import { sendSMS } from "./sms/index";
 const BLOCKHEIGHT_ENDPOINT = `${settings.localNodeURL}/api/node/status`;
 
-export const getBlockHeight = async (url) => {
-  const blockHeightData = await axios
-    .get(url ? url : BLOCKHEIGHT_ENDPOINT, {timeout: 5000})
-    .catch(() =>
-      awesome.errors.generalCatchCallback("", "get local block height")
-    );
-  let blockHeight;
-
-  if (!blockHeightData) return "0";
-
-  blockHeight = blockHeightData.data.data.height;
-
-  return blockHeight;
-};
 
 //used for the cronjob
-//TODO: Fix potential duplicated code with respondBlockHeights()
+//TODO: Improve potential duplicated code with respondBlockHeights()
 export const compareBlockHeightsCron = async () => {
   const localBlockheight = await getBlockHeight().catch(() =>
     awesome.errors.generalCatchCallback("", "get local block height")
@@ -30,8 +16,7 @@ export const compareBlockHeightsCron = async () => {
 
   if (localBlockheight === "0") {
     sendSMS(
-      "Did not manage to get local block height during routine check for " +
-        settings.nodeName
+      `Did not manage to get local block height during routine check for ${settings.nodeName}`
     );
 
     return bot.reply(
@@ -61,10 +46,7 @@ export const compareBlockHeightsCron = async () => {
     );
 
     sendSMS(
-      "Detected issue with " +
-        settings.nodeName +
-        ", local block height is " +
-        localBlockheight
+      `Detected issue with ${settings.nodeName}. local block height is ${localBlockheight}`
     );
   }
 };
@@ -79,7 +61,7 @@ export const respondBlockHeights = async () => {
   if (initialLocalBlockHeight === "0")
     return bot.reply("Error getting the local block height");
 
-  console.log("Local block height is: ", initialLocalBlockHeight);
+  console.log(`Local block height is: ${initialLocalBlockHeight}`);
   bot.reply(`<b>Local block height</b> is: ${initialLocalBlockHeight}`, {
     parse_mode: "HTML"
   });
@@ -142,4 +124,19 @@ export const parseRemoteBH = async() => {
     remoteBHMessage,
     matchingBlockHeights
   }
+};
+
+export const getBlockHeight = async (url) => {
+  const blockHeightData = await axios
+    .get(url ? url : BLOCKHEIGHT_ENDPOINT, {timeout: 5000})
+    .catch(() =>
+      awesome.errors.generalCatchCallback("", "get local block height")
+    );
+  let blockHeight;
+
+  if (!blockHeightData) return "0";
+
+  blockHeight = blockHeightData.data.data.height;
+
+  return blockHeight;
 };
