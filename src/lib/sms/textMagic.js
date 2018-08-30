@@ -17,8 +17,10 @@ export const sendTextMagic = async message => {
   const response = await axios
     .post("https://rest.textmagic.com/api/v2/messages", postData, axiosConfig)
     .catch(err => {
-      console.log("AXIOS ERROR: ", err);
+      console.fail("TextMagic API error: ", err);
     });
+
+  console.success(`SMS sent via TextMagic. Message: ${message}`);
 
   return response;
 };
