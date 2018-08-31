@@ -57,11 +57,11 @@ Done with the pre-requisites
 ![image](https://github.com/xunga/lisk-cute-assistant/blob/master/imgs/install/step3_generate_qr.png?raw=true)
 - Copy the generated secret and paste into the variable `exports.OTPsecret` inside the `src/config.js` file.
 - Copy the previously generated telegram API into the variable `exports.telegramAPIToken` inside the `src/config.js` file.
-- Now we can get the chat id... We can run `npm start`
-- Write to your bot and it will return you the chat id. Copy this chat id into the variable `exports.chatId` inside the `src/config.js` file. 
+- Now we can get the telegram user id... We can run `npm start`
+- Write to your bot and it will return your telegram user id. Copy this user id into the variable `exports.user`Id inside the `src/config.js` file.
 
 ![image](https://github.com/xunga/lisk-cute-assistant/blob/master/imgs/install/step4_get_chatid.png?raw=true)
-- Check the rest of the `src/config.js` file, if everything is right
+- Check the rest of the `src/config.js` file, if everything is right or if you want to fine tune it.
 - You should be almost ready to go! We just need to stop the bot. Run `npm stop`.
 - Congratulations! We just need to start the bot. `npm start`
 
