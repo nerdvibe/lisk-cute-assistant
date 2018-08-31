@@ -1,10 +1,19 @@
 import settings from "../config";
 import { bot } from "./telegram";
 import { exec } from "child_process";
-import awesome from "awesome_starter";
 import axios from "axios/index";
 
-const FORGING_STATUS_ENDPOINT = `${settings.localNodeURL}/api/forging/status`;
+const FORGING_STATUS_ENDPOINT = `${settings.localNodeURL}/api/node/status/forging`;
+
+export const isForging = async () => {
+  const nodeStatus = await axios
+    .get(FORGING_STATUS_ENDPOINT, { timeout: 5000 })
+    .catch(() =>
+      console.fail(`I can't access ${FORGING_STATUS_ENDPOINT}, is the API access open and localhost whitelisted?`)
+    );
+
+  return nodeStatus.data.data[0].forging;
+};
 
 export const startRebuild = async (snapshotServerURL, cb) => {
   const serverStatusExec = `
@@ -26,36 +35,25 @@ export const startRebuild = async (snapshotServerURL, cb) => {
 };
 
 export const forgingStatus = async () => {
-  const isForging = isForging();
+  const isCurrentlyForging = isForging();
   bot.reply(
-    isForging
-      ? "⛏ The node is set to forge"
-      : "💤 The node is not set to forge"
+    isCurrentlyForging
+      ? "⛏ Yes! The node is set to forge"
+      : "💤 No! The node is not set to forge"
   );
 };
 
 export const forgingStatusCron = async () => {
 
-  const isForging = isForging();
+  const isCurrentlyForging = isForging();
 
-  if(!isForging) {
+  if(!isCurrentlyForging) {
     console.fail('Node is not forging, while it should be forging!');
     bot.reply(
       "⚠️💤 The forging on the node is switched off!"
     );
   }
 
-};
-
-export const isForging = async () => {
-  const nodeStatus = await axios
-    .get(url ? url : FORGING_STATUS_ENDPOINT, { timeout: 5000 })
-    .catch(() =>
-      awesome.errors.generalCatchCallback("", "get local block height")
-    );
-
-  //TODO DOUBLE CHECK
-  return nodeStatus.data.data.forging;
 };
 
 export const returnForgingMenu = async () => {
@@ -65,7 +63,7 @@ export const returnForgingMenu = async () => {
     reply_markup: {
       keyboard: [
         ["<< Back"],
-        ['Check if node is set to forge']
+        ['⚡️ Is the node forging?']
       ]
     },
     parse_mode: "HTML"

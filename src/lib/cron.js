@@ -17,7 +17,7 @@ export const nodeHealthCron = cron.schedule(
       );
     }
     if (executeIsForgingCron) {
-      console.log("Checking Block Heights");
+      console.log("Checking Forging status");
       forgingStatusCron().catch(e =>
         awesome.errors.generalCatchCallback(e, "[cron]forgingStatusCron")
       );
