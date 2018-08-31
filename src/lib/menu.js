@@ -87,7 +87,7 @@ export const initializeMenu = () => {
         keyboard: [
           ["<< Back", "📄 Recent logs", followLogsMsg],
           ["⚠️ Forks cause 1", "⚠️ Forks cause 2", "⚠️ Forks cause 3"],
-          ["⚠️ Forks cause 4", "⚠️ Forks cause 5", "Logs All Forks"],
+          ["⚠️ Forks cause 5", "Logs All Forks", "Logs Forged"],
           ["Logs SIGKILL", "Logs SIGABRT", "Logs Consensus"]
         ]
       }
@@ -111,7 +111,6 @@ export const initializeMenu = () => {
   });
 
   bot.onText(/⚡️ Is the node forging?/i, async() => {
-    console.log('hit');
     promptIntent = cleanIntent();
     await forgingStatus();
   });
