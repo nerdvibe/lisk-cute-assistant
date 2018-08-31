@@ -7,14 +7,15 @@ export const returnSettingsMenu = () => {
   const checkServerStatus = settings.executeServerStatusCron ? "❌ Stop Server Status check" : "✅ Activate Server Status check";
 
   return bot.reply(`🤖⚙ BipBopBup Which settings you want to change?️
-    <br><br>
-    - Check if forging is enabled: ${settings.executeIsForgingCron}<br>
-    - Check local and remote Block Heights: ${settings.executeBlockHeightsCron}<br>
-    - Check server status: ${settings.executeServerStatusCron}<br>
+    
+    - Check if forging is enabled: <b>${settings.executeIsForgingCron}</b>
+    - Check local and remote Block Heights: <b>${settings.executeBlockHeightsCron}</b>
+    - Check server status: <b>${settings.executeServerStatusCron}</b>
     `, {
     reply_markup: {
       keyboard: [
-        ["<< Back", checkForging],
+        ["<< Back"],
+        [checkForging],
         [checkBlockHeights],
         [checkServerStatus]
       ]

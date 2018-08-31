@@ -41,13 +41,13 @@ export const initializeMenu = () => {
   );
 
   // blockHeight
-  bot.onText(/(\/b|block heights|block height)/i, async () => {
+  bot.onText(/(\/b|🔎 Block Heights)/i, async () => {
     promptIntent = cleanIntent();
     await respondBlockHeights();
   });
 
   // server status
-  bot.onText(/(\/s|server status|server)/i, async () => {
+  bot.onText(/(\/s|📦 Server Status)/i, async () => {
     promptIntent = cleanIntent();
     respondServerStatus();
   });
@@ -94,7 +94,7 @@ export const initializeMenu = () => {
     });
   });
 
-  bot.onText(/⚙️/i, async() => {
+  bot.onText(/⚙ Settings/i, async() => {
     promptIntent = cleanIntent();
     await returnSettingsMenu()
   });
@@ -105,12 +105,13 @@ export const initializeMenu = () => {
     await toggleSetting(msg.text);
   });
 
-  bot.onText(/⛏ Forging️/i, async() => {
+  bot.onText(/⛏ Forging/i, async() => {
     promptIntent = cleanIntent();
     await returnForgingMenu()
   });
 
-  bot.onText(/Check if node is set to forge️/i, async() => {
+  bot.onText(/⚡️ Is the node forging?/i, async() => {
+    console.log('hit');
     promptIntent = cleanIntent();
     await forgingStatus();
   });
@@ -172,6 +173,7 @@ export const initializeMenu = () => {
 
   bot.onText(/.+/, async msg => {
     // Default message in case we didn't get the request
+    console.log('Missed msg: ', msg);
     if (!promptIntent.waitingPrompt)
       await bot.sendMessage(
         msg.chat.id,
