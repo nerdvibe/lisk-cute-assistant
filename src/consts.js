@@ -26,5 +26,6 @@ exports.logsGREP = {
   "5": "5",
   CONSENSUS: "CONSENSUS",
   SIGKILL: "SIGKILL",
-  SIGABRT: "SIGABRT"
+  SIGABRT: "SIGABRT",
+  FORGED: "FORGED"
 };

@@ -89,9 +89,6 @@ export const respondGREPLogs = async type => {
     case "3":
       execGREPLogs(consts.logsGREP[3]);
       break;
-    case "4":
-      execGREPLogs(consts.logsGREP[4]);
-      break;
     case "5":
       execGREPLogs(consts.logsGREP[5]);
       break;
@@ -103,6 +100,9 @@ export const respondGREPLogs = async type => {
       break;
     case "SIGABRT":
       execGREPLogs(consts.logsGREP.SIGABRT);
+      break;
+    case "Forged":
+      execGREPLogs(consts.logsGREP.FORGED);
       break;
     default:
       break;
@@ -135,6 +135,9 @@ export const execGREPLogs = async type => {
   if (type === consts.logsGREP.SIGABRT)
     forkLogsExec = `cd ${settings.liskPWDFolder}/logs/ && tail lisk.log -n 100000 | grep "SIGABRT"`;
 
+  if (type === consts.logsGREP.FORGED)
+    forkLogsExec = `cd ${settings.liskPWDFolder}/logs/ && tail lisk.log -n 100000 | grep "Forged"`;
+
   exec(forkLogsExec, async (err, stdout, stderr) => {
     if ((err || stderr) && err.killed) {
       bot.reply(`Omg! I didn't manage to get the logs: \n${stderr}`);
@@ -144,7 +147,7 @@ export const execGREPLogs = async type => {
       return bot.reply(
         `No logs found with that query in the last lines of logs...`
       );
-    await bot.reply("📄 Here are the fork logs:");
+    await bot.reply(`📄 Here are the ${type} logs:`);
     sendChunkedMessage(stdout);
   });
 };
