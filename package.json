@@ -6,6 +6,7 @@
     "start": "node_modules/pm2/bin/pm2 start src/index.js",
     "stop": "node_modules/pm2/bin/pm2 stop src/index.js && node_modules/pm2/bin/pm2 delete src/index.js",
     "dev": "node src/index.js",
+    "logs": "node_modules/pm2/bin/pm2 logs",
     "update": "which git > /dev/null 2>&1 && git pull | echo \"Update done. Restart the bot please.\" || echo \"Git is not installed. Please install git to update LCA\"",
     "test": "snyk test",
     "generate-password": "node generate_password.js"
