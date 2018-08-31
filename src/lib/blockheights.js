@@ -129,8 +129,8 @@ export const parseRemoteBH = async() => {
 export const getBlockHeight = async (url) => {
   const blockHeightData = await axios
     .get(url ? url : BLOCKHEIGHT_ENDPOINT, {timeout: 5000})
-    .catch(() =>
-      awesome.errors.generalCatchCallback("", "getBlockHeight")
+    .catch((e) =>
+      awesome.errors.generalCatchCallback(e, "getBlockHeight")
     );
   let blockHeight;
 
