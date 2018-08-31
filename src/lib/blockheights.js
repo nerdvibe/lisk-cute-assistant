@@ -130,7 +130,7 @@ export const getBlockHeight = async (url) => {
   const blockHeightData = await axios
     .get(url ? url : BLOCKHEIGHT_ENDPOINT, {timeout: 5000})
     .catch((e) =>
-      awesome.errors.generalCatchCallback(e, "getBlockHeight")
+      awesome.errors.generalCatchCallback(e, `failed to calculate blockheight for url: ${url ? url : BLOCKHEIGHT_ENDPOINT}`)
     );
   let blockHeight;
 
