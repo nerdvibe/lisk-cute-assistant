@@ -116,7 +116,7 @@ export const checkServerStatusCron = async () => {
 
   test.on('data', async(data) => {
 
-    if(data.speeds.upload < settings.minNetworkSpeed || data.speeds.upload < settings.minNetworkSpeed || data.speeds.upload > settings.minNetworkPing) {
+    if(data.speeds.upload < settings.minNetworkSpeed || data.speeds.upload < settings.minNetworkSpeed || data.server.ping > settings.minNetworkPing) {
       await bot.reply(`⚠️ Something wrong with Network speed:
       
       <b>Upload</b>: ${data.speeds.upload} Mbps
