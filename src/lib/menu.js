@@ -22,7 +22,7 @@ export const initializeMenu = () => {
     /(\/s|\/start|hey|hi|help|hello|yo|menu|menú|cancel|back)/i,
     msg => {
       promptIntent = cleanIntent();
-      if (settings.chatId)
+      if (settings.userId)
         bot.reply(
           `👋 Hey ${msg.from.first_name}! How can I help you with?`,
           consts.menu
@@ -34,10 +34,7 @@ export const initializeMenu = () => {
           consts.menu
         );
       console.log(
-        "Client connected:",
-        msg.from.id,
-        msg.from.first_name,
-        "@" + msg.from.username
+        `Client connected: ${msg.from.id} ${msg.from.first_name} @${msg.from.username}`
       );
     }
   );
