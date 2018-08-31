@@ -13,16 +13,24 @@ Lisk-cute-assistant doesn't perform any kind of automatic operation besides chec
 
 ## Features
 
+- Lisk Core 1.0.x support
 - Block height check, comparing it to other nodes
 - Server stats
 - Remote rebuild from snapshot server
 - Logs tailing & logs grep
 - Minute by minute cronjobs to check the node health
 - Authentication of requests via OTP (e.g. 2FA passwords from Google Authenticator) for sensitive tasks such as the rebuild
+- SMS notifications
+- Check if the node is forging
 
 ## How to run
 
 [Please follow the](https://github.com/xunga/lisk-cute-assistant/blob/master/INSTALL.md) `INSTALL.md` [file](https://github.com/xunga/lisk-cute-assistant/blob/master/INSTALL.md)
+
+## How to migrate from Lisk-Cute-Assistant 1.0 to Lisk-Cute-Assistant 2.0 (aka Lisk Core 1.0 support)
+
+[Please follow the](https://github.com/xunga/lisk-cute-assistant/blob/master/MIGRATION.md) `MIGRATION.md` [file](https://github.com/xunga/lisk-cute-assistant/blob/master/MIGRATION.md)
+
 
 ## Functionalities
 
@@ -69,6 +77,11 @@ The bot is programmed in a way that it only replies to your requests. For certai
 - When rebuilding we should stop checking the block height, since the the node is not running (d'oh)
 - Feature to check new bot version
 - More ways to communicate a different block height (Webhooks, email, sms or call)
+
+### Contributors
+- Carbonara
+- TonyT908 for the SMS integration
+- Alepop for the bugfixes
 
 ### Disclaimer
 
