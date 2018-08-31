@@ -11,7 +11,7 @@ exports.menu = {
     keyboard: [
       ["🔎 Block Heights", "📦 Server Status"],
       ["🔑 Rebuild from snapshot Gr33ndragon"],
-      ["📄 Get Logs"],
+      ["📄 Get Logs", '⛏ Forging' ,"⚙️" ],
       ["🏠 Menu"]
     ]
   }

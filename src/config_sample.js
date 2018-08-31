@@ -27,8 +27,11 @@ exports.twilioData = {
   rebootWelcome: true
 };
 
+// Cronjobs
 exports.executeBlockHeightsCron = true;
+exports.executeIsForgingCron = true;
 exports.executeServerStatusCron = false;
+
 exports.cpuThreshold = 90; // Sends a notification to the user when cpu usage is over this %
 exports.spaceUsageThreshold = 10; // Sends a notification to the user when total free disk space in under this %
 exports.memoryThreshold = 90; // Sends a notification to the user when memory usage is over this %
