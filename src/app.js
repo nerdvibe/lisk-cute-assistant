@@ -24,7 +24,7 @@ console.log(`
 
 
 
-  Telegram Bot running only for ${settings.chatId}
+  Telegram Bot running only for ${settings.userId}
   OTP secret is ${settings.OTPsecret}
 
  `);

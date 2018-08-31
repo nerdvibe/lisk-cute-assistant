@@ -6,4 +6,4 @@ export const bot = new TelegramBot(settings.telegramAPIToken, {
   onlyFirstMatch: true
 });
 
-bot.reply = (...args) => bot.sendMessage(settings.chatId, ...args);
+bot.reply = (...args) => bot.sendMessage(settings.userId, ...args);
