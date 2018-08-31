@@ -113,7 +113,7 @@ export const parseRemoteBH = async() => {
     //compiling message
     remoteBHMessage += `\n\n<b>${remoteNode.name}</b> : ${remoteNode.blockHeight} (L: ${localBlockHeightCheck})`;
 
-    if(!remoteNode.blockHeight === 0) {
+    if(!(remoteNode.blockHeight === 0)) {
       //checking if my block height is in sync with this node
       let zero = localBlockHeightCheck - remoteNode.blockHeight;
       if (zero >= -settings.diffBlockHeight && zero <= settings.diffBlockHeight) {
