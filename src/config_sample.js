@@ -35,6 +35,8 @@ exports.executeServerStatusCron = false; // Check the server stats
 exports.cpuThreshold = 90; // Sends a notification to the user when cpu usage is over this %
 exports.spaceUsageThreshold = 10; // Sends a notification to the user when total free disk space in under this %
 exports.memoryThreshold = 90; // Sends a notification to the user when memory usage is over this %
+exports.minNetworkSpeed = 100; // expressed in Mbps
+exports.minNetworkPing = 100; // expressed in ms
 
 exports.liskPWDFolder = "/home/lisk/lisk-main"; // the path of your lisk node
 
