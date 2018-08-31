@@ -11,6 +11,6 @@ export const welcome = async () => {
     await bot.reply(
       `🤖 Ahoy, I've just been rebooted. Here are some info regarding the server...`
     );
-    await respondServerStatus();
+    await respondServerStatus(true);
   }
 };

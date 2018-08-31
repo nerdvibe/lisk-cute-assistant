@@ -1,8 +1,32 @@
+import speedTest from 'speedtest-net';
 import settings from "../config";
 import { bot } from "./telegram";
 import { exec } from "child_process";
 
-export const respondServerStatus = async () => {
+const runSpeedTest = () => {
+  const test = speedTest({maxTime: 5000});
+
+  test.on('data', async(data) => {
+    await bot.reply(`Network speed:
+    
+    <b>Upload</b>: ${data.speeds.upload} Mbps
+    <b>Download</b>:  ${data.speeds.download} Mbps
+    <b>Distance</b>:  ${data.server.distance} km
+    <b>Ping</b>: ${data.server.ping} ms
+    
+    `, {
+      parse_mode: "HTML"
+    });
+  });
+
+  test.on('error', err => {
+    bot.reply('Oh no! I didn\'t manage to calculate the network speed')
+  });
+};
+
+
+
+export const respondServerStatus = async (silentLoading = false) => {
   const serverStatusExec = `
     cd ${settings.liskPWDFolder}
     bash lisk.sh status
@@ -28,6 +52,12 @@ export const respondServerStatus = async () => {
     }
     bot.reply(stdout);
   });
+
+  if(!silentLoading) {
+    await bot.reply('Now calculating the network speed 🏎');
+  }
+
+  runSpeedTest();
 };
 
 export const checkServerStatusCron = async () => {
@@ -78,5 +108,30 @@ export const checkServerStatusCron = async () => {
     const stdoutValue = parseInt(stdout);
     if (stdoutValue > settings.memoryThreshold)
       bot.reply(`⚠️ Space usage % over the threshold! ${stdout}`);
+  });
+
+
+  // Speedtest
+  const test = speedTest({maxTime: 5000});
+
+  test.on('data', async(data) => {
+
+    if(data.speeds.upload < settings.minNetworkSpeed || data.speeds.upload < settings.minNetworkSpeed || data.speeds.upload > settings.minNetworkPing) {
+      await bot.reply(`⚠️ Something wrong with Network speed:
+      
+      <b>Upload</b>: ${data.speeds.upload} Mbps
+      <b>Download</b>:  ${data.speeds.download} Mbps
+      <b>Distance</b>:  ${data.server.distance} km
+      <b>Ping</b>: ${data.server.ping} ms
+      
+      `, {
+        parse_mode: "HTML"
+      });
+    }
+  });
+
+  test.on('error', err => {
+    console.fail('Network speed check failed', err);
+    bot.reply('Oh no! I didn\'t manage to calculate the network speed during the cronjob')
   });
 };
