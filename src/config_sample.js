@@ -3,34 +3,34 @@
 exports.telegramAPIToken = ""; // Your telegram bot API key. Ask the @botfather for an api key
 exports.userId = ""; // your telegram id. This will make sure that the msgs are sent only to you
 exports.OTPsecret = ""; // run "npm run generate-password" in order to get this setting
-exports.localNodeURL = "http://127.0.0.1:8000/api/node/status"; // If you want to use for testing "https://node04.lisk.io/api/node/status" or use your node in testnet, don't forget the port 7000
+exports.localNodeURL = "http://127.0.0.1:8000"; // If you want to use for testing "https://node04.lisk.io/api/node/status" or use your node in testnet, don't forget the port 7000
 exports.diffBlockHeight = 3; // The difference of block heights between your node and the others before triggering an alarm
 exports.minBlockHeightNodeMatch = -3; // The difference of block heights between your node and the others before triggering an alarm
 exports.rebootWelcome = true; // The reboot telegram message
 exports.nodeName = "My node"; // Used to identify which node is being referred to with SMS
-exports.minutesBetweenTexts = 15;
+exports.minutesBetweenTexts = 15; // How many mins. before sending another SMS
 
 exports.textMagicData = {
-  enabled: false,
+  enabled: false, // switch to true only if you have the following credentials fro textMagic.
   username: "",
   APIkey: "",
   phoneNumber: "",
-  rebootWelcome: true
+  rebootWelcome: true // It sends an sms at the startup of the bot
 };
 
 exports.twilioData = {
-  enabled: false,
+  enabled: false, // switch to true only if you have the following credentials fro Twilio.
   username: "",
   password: "",
   fromPhoneNumber: "",
   toPhoneNumber: "",
-  rebootWelcome: true
+  rebootWelcome: true // It sends an sms at the startup of the bot
 };
 
 // Cronjobs
-exports.executeBlockHeightsCron = true;
-exports.executeIsForgingCron = true;
-exports.executeServerStatusCron = false;
+exports.executeBlockHeightsCron = true; // Compare the local block height with the nodes of the network every minute
+exports.executeIsForgingCron = true; // Check every minute if the node is forging or not
+exports.executeServerStatusCron = false; // Check the server stats
 
 exports.cpuThreshold = 90; // Sends a notification to the user when cpu usage is over this %
 exports.spaceUsageThreshold = 10; // Sends a notification to the user when total free disk space in under this %
