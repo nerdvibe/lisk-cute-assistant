@@ -22,6 +22,7 @@ Lisk-cute-assistant doesn't perform any kind of automatic operation besides chec
 - Authentication of requests via OTP (e.g. 2FA passwords from Google Authenticator) for sensitive tasks such as the rebuild
 - SMS notifications
 - Check if the node is forging
+- Network speedtest
 
 ## How to run
 
