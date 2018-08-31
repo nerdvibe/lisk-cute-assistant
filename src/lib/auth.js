@@ -1,8 +1,8 @@
-const settings = require("../config");
-const { bot } = require("./telegram");
-let speakeasy = require("speakeasy");
+import settings from "../config";
+import { bot } from "./telegram";
+import speakeasy from "speakeasy";
 
-const testAuthenticationOTP = async (otpCode, silent) => {
+export const testAuthenticationOTP = async (otpCode, silent) => {
   const verifyObj = {
     secret: settings.OTPsecret,
     encoding: "base32",
@@ -10,12 +10,10 @@ const testAuthenticationOTP = async (otpCode, silent) => {
   };
 
   if (await speakeasy.totp.verify(verifyObj)) {
-    if (!silent) bot.sendMessage(settings.chatId, `✅ Your password works!!`);
+    if (!silent) bot.reply(`✅ Your password works!!`);
     return true;
   } else if (!silent) {
-    bot.sendMessage(settings.chatId, `Oh no mate! The code doesn't match!`);
+    bot.reply(`Oh no mate! The code doesn't match!`);
   }
   return false;
 };
-
-exports.testAuthenticationOTP = testAuthenticationOTP;

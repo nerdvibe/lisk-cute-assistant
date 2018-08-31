@@ -1,8 +1,8 @@
-const settings = require("../config");
-const { bot } = require("./telegram");
-const exec = require("child_process").exec;
+import settings from "../config";
+import { bot } from "./telegram";
+import { exec } from "child_process";
 
-const respondServerStatus = async () => {
+export const respondServerStatus = async () => {
   const serverStatusExec = `
     cd ${settings.liskPWDFolder}
     bash lisk.sh status
@@ -18,24 +18,19 @@ const respondServerStatus = async () => {
     free | grep Mem | awk '{print $3/$2 * 100.0}'
   `;
 
-  exec(serverStatusExec, function(err, stdout, stderr) {
+  exec(serverStatusExec, (err, stdout, stderr) => {
     if (err || stderr) {
-      bot.sendMessage(
-        settings.chatId,
+      bot.reply(
         `Omg! I didn't manage to correctly check the server status: \n${stderr}`
       );
-      if (stdout)
-        bot.sendMessage(
-          settings.chatId,
-          `This is what I got anyway (stdout): \n${stdout}`
-        );
+      if (stdout) bot.reply(`This is what I got anyway (stdout): \n${stdout}`);
       return;
     }
-    bot.sendMessage(settings.chatId, stdout);
+    bot.reply(stdout);
   });
 };
 
-const checkServerStatusCron = async () => {
+export const checkServerStatusCron = async () => {
   const cpuExec = `
     grep 'cpu ' /proc/stat | awk '{usage=($2+$4)*100/($2+$4+$5)} END {print usage}'
   `;
@@ -46,69 +41,42 @@ const checkServerStatusCron = async () => {
     free | grep Mem | awk '{print $3/$2 * 100.0}'
   `;
 
-  exec(cpuExec, function(err, stdout, stderr) {
+  exec(cpuExec, (err, stdout, stderr) => {
     if (err || stderr) {
-      bot.sendMessage(
-        settings.chatId,
+      bot.reply(
         `Omg! I didn't manage to correctly check the cpu status: \n${stderr}`
       );
-      if (stdout)
-        bot.sendMessage(
-          settings.chatId,
-          `This is what I got anyway (stdout): \n${stdout}`
-        );
+      if (stdout) bot.reply(`This is what I got anyway (stdout): \n${stdout}`);
       return;
     }
     const stdoutValue = parseInt(stdout);
     if (stdoutValue > settings.cpuThreshold)
-      bot.sendMessage(
-        settings.chatId,
-        `⚠️ CPU usage % over the threshold! ${stdout}`
-      );
+      bot.reply(`⚠️ CPU usage % over the threshold! ${stdout}`);
   });
 
-  exec(spaceUsageExec, function(err, stdout, stderr) {
+  exec(spaceUsageExec, (err, stdout, stderr) => {
     if (err || stderr) {
-      bot.sendMessage(
-        settings.chatId,
+      bot.reply(
         `Omg! I didn't manage to correctly check the space usage: \n${stderr}`
       );
-      if (stdout)
-        bot.sendMessage(
-          settings.chatId,
-          `This is what I got anyway (stdout): \n${stdout}`
-        );
+      if (stdout) bot.reply(`This is what I got anyway (stdout): \n${stdout}`);
       return;
     }
     const stdoutValue = parseInt(stdout);
     if (stdoutValue > settings.spaceUsageThreshold)
-      bot.sendMessage(
-        settings.chatId,
-        `⚠️ RAM usage % over the threshold! ${stdout}`
-      );
+      bot.reply(`⚠️ RAM usage % over the threshold! ${stdout}`);
   });
 
-  exec(memoryExec, function(err, stdout, stderr) {
+  exec(memoryExec, (err, stdout, stderr) => {
     if (err || stderr) {
-      bot.sendMessage(
-        settings.chatId,
+      bot.reply(
         `Omg! I didn't manage to correctly check the memory usage: \n${stderr}`
       );
-      if (stdout)
-        bot.sendMessage(
-          settings.chatId,
-          `This is what I got anyway (stdout): \n${stdout}`
-        );
+      if (stdout) bot.reply(`This is what I got anyway (stdout): \n${stdout}`);
       return;
     }
     const stdoutValue = parseInt(stdout);
     if (stdoutValue > settings.memoryThreshold)
-      bot.sendMessage(
-        settings.chatId,
-        `⚠️ Space usage % over the threshold! ${stdout}`
-      );
+      bot.reply(`⚠️ Space usage % over the threshold! ${stdout}`);
   });
 };
-
-exports.respondServerStatus = respondServerStatus;
-exports.checkServerStatusCron = checkServerStatusCron;

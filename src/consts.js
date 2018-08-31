@@ -1,20 +1,17 @@
-exports.intents =
-  {
-    ASK_PASSWORD_REBUILD_GREENDRAGON_MAIN:
-      "ASK_PASSWORD_REBUILD_GREENDRAGON_MAIN"
-  };
+exports.intents = {
+  ASK_PASSWORD_REBUILD_GREENDRAGON_MAIN: "ASK_PASSWORD_REBUILD_GREENDRAGON_MAIN"
+};
 
-exports.snapshot_servers =
-  {
-    GREENDRAGON_MAIN: "https://snapshot.lisknode.io"
-  };
+exports.snapshot_servers = {
+  GREENDRAGON_MAIN: "https://snapshot.lisknode.io"
+};
 
 exports.menu = {
   reply_markup: {
     keyboard: [
       ["🔎 Block Heights", "📦 Server Status"],
       ["🔑 Rebuild from snapshot Gr33ndragon"],
-      ["📄 Get Logs"],
+      ["📄 Get Logs", '⛏ Forging' ,"⚙ Settings" ],
       ["🏠 Menu"]
     ]
   }
