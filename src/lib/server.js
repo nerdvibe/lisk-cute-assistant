@@ -2,6 +2,9 @@ import speedTest from 'speedtest-net';
 import settings from "../config";
 import { bot } from "./telegram";
 import { exec } from "child_process";
+import {sendToSlackWebhook, sendToWebhook} from "./webhooks";
+import {webhookEvents} from "../consts";
+import {sendSMS} from "./sms";
 
 const runSpeedTest = () => {
   const test = speedTest({maxTime: 5000});
@@ -27,6 +30,9 @@ const runSpeedTest = () => {
 
 
 export const respondServerStatus = async (silentLoading = false) => {
+  if(!silentLoading) {
+    await bot.reply('Now calculating server stats and network speed 🏎');
+  }
   const serverStatusExec = `
     cd ${settings.liskPWDFolder}
     bash lisk.sh status
@@ -53,9 +59,6 @@ export const respondServerStatus = async (silentLoading = false) => {
     bot.reply(stdout);
   });
 
-  if(!silentLoading) {
-    await bot.reply('Now calculating the network speed 🏎');
-  }
 
   runSpeedTest();
 };
@@ -80,8 +83,14 @@ export const checkServerStatusCron = async () => {
       return;
     }
     const stdoutValue = parseInt(stdout);
-    if (stdoutValue > settings.cpuThreshold)
+    if (stdoutValue > settings.cpuThreshold) {
       bot.reply(`⚠️ CPU usage % over the threshold! ${stdout}`);
+      sendToSlackWebhook(`Detected issue. CPU usage very high!`);
+      sendToWebhook(webhookEvents.high_cpu_usage);
+      sendSMS(
+        `The CPU usage is over the threshold!`
+      );
+    }
   });
 
   exec(spaceUsageExec, (err, stdout, stderr) => {
@@ -93,8 +102,14 @@ export const checkServerStatusCron = async () => {
       return;
     }
     const stdoutValue = parseInt(stdout);
-    if (stdoutValue > settings.spaceUsageThreshold)
+    if (stdoutValue > settings.spaceUsageThreshold) {
       bot.reply(`⚠️ RAM usage % over the threshold! ${stdout}`);
+      sendToSlackWebhook(`Detected issue. RAM usage very high!`);
+      sendToWebhook(webhookEvents.high_ram_usage);
+      sendSMS(
+        `The RAM usage is over the threshold!`
+      );
+    }
   });
 
   exec(memoryExec, (err, stdout, stderr) => {
@@ -106,8 +121,14 @@ export const checkServerStatusCron = async () => {
       return;
     }
     const stdoutValue = parseInt(stdout);
-    if (stdoutValue > settings.memoryThreshold)
+    if (stdoutValue > settings.memoryThreshold) {
       bot.reply(`⚠️ Space usage % over the threshold! ${stdout}`);
+      sendToSlackWebhook(`Detected issue. Disk usage very high!`);
+      sendToWebhook(webhookEvents.high_disk_usage);
+      sendSMS(
+        `The Disk usage is over the threshold!`
+      );
+    }
   });
 
 
@@ -128,6 +149,11 @@ export const checkServerStatusCron = async () => {
         parse_mode: "HTML"
       });
     }
+    sendToSlackWebhook(`Detected issue. Disk usage very high!`);
+    sendToWebhook(webhookEvents.low_speed_error);
+    sendSMS(
+      `The Disk usage is over the threshold!`
+    );
   });
 
   test.on('error', err => {
