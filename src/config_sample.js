@@ -27,6 +27,16 @@ exports.twilioData = {
   rebootWelcome: true // It sends an sms at the startup of the bot
 };
 
+exports.slackWebhook = { // If you want to receive critical messages to slack
+  url: '', // get the url from slack incoming webhooks. It should look like e.g. https://hooks.slack.com/services/keeeeey/keeeeyzzz2/keeeeyzzz3
+  channel: '', // the channel name, including #. e.g. #general
+  icon_emoji: '' // an emoji to replace the boring webhooks logo in the slack messages
+};
+
+exports.webhook = { // If you want to use IFTTT
+  url: '', // get the url from IFTTT incoming webhooks channel -> settings. It must include the {event} tag as it is. e.g. https://maker.ifttt.com/trigger/{event}/with/key/your-crazy-key
+};
+
 // Cronjobs
 exports.executeBlockHeightsCron = true; // Compare the local block height with the nodes of the network every minute
 exports.executeIsForgingCron = true; // Check every minute if the node is forging or not
