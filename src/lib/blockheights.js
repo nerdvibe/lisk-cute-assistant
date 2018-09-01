@@ -1,8 +1,10 @@
 import awesome from "awesome_starter";
 import axios from "axios";
 import settings from "../config";
+import {webhookEvents} from '../consts'
 import { bot } from "./telegram";
 import { sendSMS } from "./sms/index";
+import {sendToSlackWebhook, sendToWebhook} from "./webhooks";
 const BLOCKHEIGHT_ENDPOINT = `${settings.localNodeURL}/api/node/status`;
 
 
@@ -16,8 +18,10 @@ export const compareBlockHeightsCron = async () => {
 
   if (localBlockheight === "0") {
     sendSMS(
-      `Did not manage to get local block height during routine check for ${settings.nodeName}`
+      `Did not manage to get local block height during routine check!`
     );
+    sendToSlackWebhook(`Detected issue. Local block height not available!!`);
+    sendToWebhook(webhookEvents.no_local_blockheight);
 
     return bot.reply(
       "I didn't manage to get the local block height during the routine check!"
@@ -46,8 +50,10 @@ export const compareBlockHeightsCron = async () => {
     );
 
     sendSMS(
-      `Detected issue with ${settings.nodeName}. local block height is ${localBlockheight}`
+      `Detected issue. local block height is ${localBlockheight}`
     );
+    sendToSlackWebhook(`Detected issue. Local block not matching with the rest of the network. Local block height: ${localBlockheight}`);
+    sendToWebhook(webhookEvents.blockheights_missmatch);
   }
 };
 
