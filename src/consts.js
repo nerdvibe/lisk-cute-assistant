@@ -29,3 +29,13 @@ exports.logsGREP = {
   SIGABRT: "SIGABRT",
   FORGED: "FORGED"
 };
+
+exports.webhookEvents = {
+  forging_switched_off: 'forging_switched_off',
+  blockheights_missmatch: 'blockheights_missmatch',
+  high_cpu_usage: 'high_cpu_usage',
+  high_ram_usage: 'high_ram_usage',
+  high_disk_usage: 'high_disk_usage',
+  low_speed_error: 'low_speed_error',
+  no_local_blockheight: 'no_local_blockheight'
+};

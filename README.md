@@ -21,6 +21,8 @@ Lisk-cute-assistant doesn't perform any kind of automatic operation besides chec
 - Minute by minute cronjobs to check the node health
 - Authentication of requests via OTP (e.g. 2FA passwords from Google Authenticator) for sensitive tasks such as the rebuild
 - SMS notifications
+- Slack integration via webhooks
+- Genertic Webhooks integration (e.g. IFTTT)
 - Check if the node is forging
 - Network speedtest
 
@@ -41,7 +43,7 @@ It tests your blockheight against the other nodes configured in the `config.js` 
 
 ### Server status
 
-Returns the CPU/RAM usage, available space and the lisk process status
+Returns the CPU/RAM usage, available space, the lisk process status and a speedtest to check the network speed.
 
 ### Rebuild from snapshot
 
@@ -56,13 +58,36 @@ Opens a new keyboard that enables to:
  - Forks cause 1
  - Forks cause 2
  - Forks cause 3
- - Forks cause 4
  - Forks cause 5
  - All forks
+ - Forged blocks
  - SIGKILL
  - SIGABRT
  - "Consensus"
- 
+
+### SMS integration
+
+You can receive SMSs when something wrong happens. There are two providers available: Textmagic and Twilio. Fill the `textMagicData` and/or `twilioData`  variables in the config.js in order to enable SMS messages.
+
+### Slack webhooks
+
+Fill the `slackWebhook` variable in the config.js in order to enable messages via slack. You can get the needed data for the configuration by adding an `Incoming WebHook` integration in the settings of you Slack's workspace.
+
+
+### Webhook events
+
+Lisk-cute-assistant can run webhooks to services like IFTTT. It will pass the `eventName` and as payload `value_1` the name of the node from the config.js (`nodeName` variable).
+
+The available events are:
+- lca_forging_switched_off
+- lca_blockheights_missmatch
+- lca_high_cpu_usage
+- lca_high_ram_usage
+- lca_high_disk_usage
+- lca_low_speed_error
+- lca_no_local_blockheight
+
+
 ## Security
 
 The bot is programmed in a way that it only replies to your requests. For certain tasks like the rebuild flow, it requests a [One Time Password](https://en.wikipedia.org/wiki/One-time_password) in order to perform the action.
