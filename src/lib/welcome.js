@@ -8,7 +8,7 @@ import {webhookEvents} from "../consts";
 export const welcome = async () => {
   // Welcome sms message
   sendSMSWelcome(`Lisk Cute Assistant rebooted`);
-  sendToSlackWebhook(`Lisk Cute Assistant on rebooted`);
+  sendToSlackWebhook(`Lisk Cute Assistant rebooted`);
   sendToWebhook(webhookEvents.forging_switched_off);
   // Welcome chat message
   if (settings.userId && settings.rebootWelcome) {
