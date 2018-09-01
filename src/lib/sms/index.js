@@ -5,10 +5,12 @@ let lastSMS = new Date(0);
 
 export const sendSMS = message => {
   const currentTime = new Date();
-
   const smsCompare = new Date(
     currentTime.getTime() + settings.minutesBetweenTexts * -60000
   );
+
+  message = `[${settings.nodeName}] ${message}`;
+
   if (smsCompare > lastSMS) {
     if (settings.textMagicData.enabled) {
       sendTextMagic(message);
@@ -21,6 +23,9 @@ export const sendSMS = message => {
 };
 
 export const sendSMSWelcome = message => {
+
+  message = `[${settings.nodeName}] ${message}`;
+
   if (settings.textMagicData.enabled && settings.textMagicData.rebootWelcome) {
     sendTextMagic(message);
   }

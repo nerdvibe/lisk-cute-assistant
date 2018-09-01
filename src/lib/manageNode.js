@@ -2,6 +2,8 @@ import settings from "../config";
 import { bot } from "./telegram";
 import { exec } from "child_process";
 import axios from "axios/index";
+import {sendToSlackWebhook, sendToWebhook} from "./webhooks";
+import {webhookEvents} from "../consts";
 
 const FORGING_STATUS_ENDPOINT = `${settings.localNodeURL}/api/node/status/forging`;
 
@@ -52,6 +54,11 @@ export const forgingStatusCron = async () => {
     bot.reply(
       "⚠️💤 The forging on the node is switched off!"
     );
+    sendSMS(
+      `The forging on the node is switched off!`
+    );
+    sendToSlackWebhook(`⚠️💤 The forging on the node is switched off!`);
+    sendToWebhook(webhookEvents.forging_switched_off);
   }
 
 };
