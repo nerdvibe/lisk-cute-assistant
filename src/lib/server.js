@@ -12,8 +12,8 @@ const runSpeedTest = () => {
   test.on('data', async(data) => {
     await bot.reply(`Network speed:
     
-    <b>Upload</b>: ${data.speeds.upload} Mbps
     <b>Download</b>:  ${data.speeds.download} Mbps
+    <b>Upload</b>: ${data.speeds.upload} Mbps
     <b>Distance</b>:  ${data.server.distance} km
     <b>Ping</b>: ${data.server.ping} ms
     
@@ -140,8 +140,8 @@ export const checkServerStatusCron = async () => {
     if(data.speeds.upload < settings.minUploadSpeed || data.speeds.download < settings.minDownloadSpeed || data.server.ping > settings.minNetworkPing) {
       await bot.reply(`⚠️ Something wrong with Network speed:
       
-      <b>Upload</b>: ${data.speeds.upload} Mbps
       <b>Download</b>:  ${data.speeds.download} Mbps
+      <b>Upload</b>: ${data.speeds.upload} Mbps
       <b>Distance</b>:  ${data.server.distance} km
       <b>Ping</b>: ${data.server.ping} ms
       
@@ -149,10 +149,10 @@ export const checkServerStatusCron = async () => {
         parse_mode: "HTML"
       });
     }
-    sendToSlackWebhook(`Detected issue. Disk usage very high!`);
+    sendToSlackWebhook(`Detected issue. The network speed has issues: D: ${data.speeds.download}Mbps U: ${data.speeds.upload}Mbps P:${data.server.ping} ms`);
     sendToWebhook(webhookEvents.low_speed_error);
     sendSMS(
-      `The Disk usage is over the threshold!`
+      `The network speed has issues: D: ${data.speeds.download}Mbps U: ${data.speeds.upload}Mbps P:${data.server.ping} ms `
     );
   });
 
