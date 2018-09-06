@@ -10,6 +10,13 @@ exports.rebootWelcome = true; // The reboot telegram message
 exports.nodeName = "My node"; // Used to identify which node is being referred to with SMS
 exports.minutesBetweenTexts = 15; // How many mins. before sending another SMS
 
+// Enable/disable remote forging. Check ENABLE_FORGING.md for further reference
+exports.enableDisableRemoteForging = false; // Do you want to be able to enable/disable forging remotely?
+exports.serverIp = '1.1.1.1'; // the public IP of your server
+exports.serverPort = '443'; // the port on where you enable forging server will run
+exports.part_A = 'fooBar'; // Your decryption key should be composed by two parts: part_A and part_B. The part_A is stored here, the part_B is transmitted over the wire. In order to use this function you need to encrypt your passphrase like this: PART_A+PART_B
+// E.G. if your PART_A is 'carbonara' and PART_B is 'THE_BEST', the decryption key will look like this: carbonara+THE_BEST
+
 exports.textMagicData = {
   enabled: false, // switch to true only if you have the following credentials fro textMagic.
   username: "",

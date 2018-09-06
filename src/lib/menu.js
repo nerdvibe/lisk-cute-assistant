@@ -2,7 +2,7 @@ import settings from "../config";
 import consts from "../consts";
 import { bot } from "./telegram";
 import { cleanIntent, setIntent } from "./utils";
-import { startRebuild, returnForgingMenu, forgingStatus } from "./manageNode";
+import { startRebuild, returnForgingMenu, forgingStatus, toggleForgingRegex } from "./manageNode";
 import { respondServerStatus } from "./server";
 import { respondBlockHeights } from "./blockheights";
 import { testAuthenticationOTP } from "./auth";
@@ -110,7 +110,7 @@ export const initializeMenu = () => {
     await returnForgingMenu()
   });
 
-  bot.onText(/⚡️ Is the node forging?/i, async() => {
+  bot.onText(toggleForgingRegex, async() => {
     promptIntent = cleanIntent();
     await forgingStatus();
   });

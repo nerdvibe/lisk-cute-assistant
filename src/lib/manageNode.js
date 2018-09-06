@@ -63,17 +63,48 @@ export const forgingStatusCron = async () => {
 
 };
 
+// TODO: Test
+export const toggleForging = async(willEnable, part_B) => {
+
+  // TODO: ? : request verb
+
+  if(typeof willEnable === "undefined") {
+    throw new Error(`Can't call toggleForging without specifying if enable or disable forging`)
+  }
+  if(willEnable && !part_B) {
+    throw new Error(`Can't enable forging without part_B`)
+  }
+
+  const payload = {
+    forging: willEnable
+    password: `${settings.part_A}+${part_B}`
+  };
+
+  // Axios put
+
+};
+
 export const returnForgingMenu = async () => {
 
-  return bot.reply('⛏ Forging menu',
+  const isCurrentlyForging = await isForging();
+  const isForgingMsg = isCurrentlyForging ? '✅  The node is not set to forge' : '🔴  The node is not set to forge';
+  const enableForgingMsg = isCurrentlyForging ? '⚡️ Enable forging' : '⚡️ Disable forging';
+
+  return bot.reply(`
+  
+  ${isForgingMsg}
+  
+  ⛏ Forging menu`,
   {
     reply_markup: {
       keyboard: [
         ["<< Back"],
-        ['⚡️ Is the node forging?']
+        [enableForgingMsg],
       ]
     },
     parse_mode: "HTML"
   });
 
 };
+
+export const toggleForgingRegex = /(⚡️ Enable forging|⚡️ Disable forging)/i;
