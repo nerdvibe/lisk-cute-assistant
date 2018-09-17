@@ -96,13 +96,10 @@ The bot is programmed in a way that it only replies to your requests. For certai
 <img src="https://github.com/xunga/lisk-cute-assistant/blob/master/imgs/screen0.jpg?raw=true" data-canonical-src="https://github.com/xunga/lisk-cute-assistant/blob/master/imgs/screen0.jpg?raw=true" width="400" />   <img src="https://github.com/xunga/lisk-cute-assistant/blob/master/imgs/screen1.jpg?raw=true" data-canonical-src="https://github.com/xunga/lisk-cute-assistant/blob/master/imgs/screen1.jpg?raw=true" width="400" />
 
 
-### Todos
-- Multi node management (thanks @alepop)
+### Challenges that would be nice to discusss
 - External heartbeat check
 - Improve the snapshot rebuild possibilities (add other snapshot servers)
-- When rebuilding we should stop checking the block height, since the the node is not running (d'oh)
 - Feature to check new bot version
-- More ways to communicate a different block height (Webhooks, email, sms or call)
 
 ### Contributors
 - Carbonara
