@@ -90,11 +90,7 @@ exports.remoteNodes = [
     name: "lisk8"
   },
   {
-    url: "https://login.lisk.asia/api/node/status",
-    name: "liskAsia"
-  },
-  {
-    url: "https://wallet.lisknode.io/api/node/status",
-    name: "liskNode"
+    url: "https://api.lisknode.io/api/node/status",
+    name: "gr33ndrag0n"
   }
 ];
