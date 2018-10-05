@@ -53,16 +53,12 @@ exports.liskPWDFolder = "/home/lisk/lisk-test"; // the path of your lisk node
 
 exports.remoteNodes = [
   {
-    url: "https://testnet-wallet.lisknode.io/api/node/status",
-    name: "gr33ndragon-wallet"
+    url: "https://testnet-api.lisknode.io/api/node/status",
+    name: "gr33ndragon"
   },
   {
     url: "https://testnet.lisk.io/api/node/status",
     name: "LiskHQ"
-  },
-  {
-    url: "http://198.50.245.220:7000/api/node/status",
-    name: "Lisknode.net"
   },
   {
     url: "http://lisk99.mzpool.net:7000/api/node/status",
