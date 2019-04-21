@@ -37,30 +37,29 @@ export const startRebuild = async (snapshotServerURL, cb) => {
 };
 
 export const forgingStatus = async () => {
-  const isCurrentlyForging = isForging();
-  bot.reply(
-    isCurrentlyForging
-      ? "⛏ Yes! The node is set to forge"
-      : "💤 No! The node is not set to forge"
-  );
+  isForging().then(isCurrentlyForging => {
+    bot.reply(
+      isCurrentlyForging
+        ? "⛏ Yes! The node is set to forge"
+        : "💤 No! The node is not set to forge"
+    );
+  })
 };
 
 export const forgingStatusCron = async () => {
-
-  const isCurrentlyForging = isForging();
-
-  if(!isCurrentlyForging) {
-    console.fail('Node is not forging, while it should be forging!');
-    bot.reply(
-      "⚠️💤 The forging on the node is switched off!"
-    );
-    sendSMS(
-      `The forging on the node is switched off!`
-    );
-    sendToSlackWebhook(`⚠️💤 The forging on the node is switched off!`);
-    sendToWebhook(webhookEvents.forging_switched_off);
-  }
-
+  isForging().then(isCurrentlyForging => {
+    if(!isCurrentlyForging) {
+      console.fail('Node is not forging, while it should be forging!');
+      bot.reply(
+        "⚠️💤 The forging on the node is switched off!"
+      );
+      sendSMS(
+        `The forging on the node is switched off!`
+      );
+      sendToSlackWebhook(`⚠️💤 The forging on the node is switched off!`);
+      sendToWebhook(webhookEvents.forging_switched_off);
+    }
+  })
 };
 
 export const returnForgingMenu = async () => {
