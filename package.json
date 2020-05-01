@@ -9,7 +9,9 @@
     "logs": "node_modules/pm2/bin/pm2 logs",
     "update": "which git > /dev/null 2>&1 && git pull | echo \"Update done. Restart the bot please.\" || echo \"Git is not installed. Please install git to update LCA\"",
     "test": "snyk test",
-    "generate-password": "node generate_password.js"
+    "generate-password": "node generate_password.js",
+    "snyk-protect": "snyk protect",
+    "prepublish": "npm run snyk-protect"
   },
   "keywords": [
     "lisk",
@@ -28,9 +30,9 @@
     "qrcode-terminal": "0.11.0",
     "speakeasy": "2.0.0",
     "speedtest-net": "^1.4.3",
-    "tail": "1.2.3"
+    "tail": "1.2.3",
+    "snyk": "^1.316.1"
   },
-  "devDependencies": {
-    "snyk": "1.91.0"
-  }
+  "devDependencies": {},
+  "snyk": true
 }
