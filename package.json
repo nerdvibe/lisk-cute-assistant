@@ -20,7 +20,7 @@
   "license": "GPLv3",
   "dependencies": {
     "awesome_starter": "1.0.6",
-    "axios": "0.17.1",
+    "axios": "0.21.1",
     "esm": "^3.0.79",
     "node-cron": "1.2.1",
     "node-telegram-bot-api": "0.30.0",
